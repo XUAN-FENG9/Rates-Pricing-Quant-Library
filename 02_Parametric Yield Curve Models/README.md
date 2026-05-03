@@ -47,8 +47,7 @@ Front-office trading desks therefore frequently use **parametric smoothing model
 The Nelson-Siegel model represents the zero rate curve as:
 
 $$
-y(t)=
-\beta_0
+y(t)= \beta_0
 +
 \beta_1
 \left(
@@ -132,8 +131,7 @@ Large $$\tau$$:
 The Svensson model extends Nelson-Siegel with an additional curvature term:
 
 $$
-y(t)
-=
+y(t) =
 \beta_0
 +
 \beta_1 f_1(t)
@@ -162,11 +160,9 @@ The Svensson model is widely used by:
 The model parameters are calibrated by minimizing the squared fitting error:
 
 $$
-\text{Error}
-= \sum_i
+\text{Error} = \sum_i
 \left(
-y_{\text{market}}(t_i)
-- y_{\text{model}}(t_i)
+y_{\text{market}}(t_i) - y_{\text{model}}(t_i)
 \right)^2
 $$
 
@@ -202,8 +198,7 @@ Forward rates are implied from discount factors:
 
 $$
 F(t_1,t_2)
-= \frac{DF(t_1)}{DF(t_2)}
-- 1
+= [\frac{DF(t_1)}{DF(t_2)} - 1] \cdot \frac{1}{t_2-t_1}
 $$
 
 Parametric models are especially useful because they generate:
