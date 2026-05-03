@@ -134,11 +134,11 @@ $$
 y(t) =
 \beta_0
 +
-\beta_1 f_1(t)
+\beta_1 \frac{1-e^{-t/\tau_1}}{t/\tau_1}
 +
-\beta_2 f_2(t)
+\beta_2 \frac{1-e^{-t/\tau_1}}{t/\tau_1}- e^{-t/\tau_1}
 +
-\beta_3 f_3(t)
+\beta_3 \frac{1-e^{-t/\tau_2}}{t/\tau_2} - e^{-t/\tau_2}
 $$
 
 This additional flexibility improves fitting quality for:
