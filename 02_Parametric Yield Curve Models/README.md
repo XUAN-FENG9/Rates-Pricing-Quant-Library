@@ -47,8 +47,7 @@ Front-office trading desks therefore frequently use **parametric smoothing model
 The Nelson-Siegel model represents the zero rate curve as:
 
 $$
-y(t)
-=
+y(t) =
 \beta_0
 +
 \beta_1
@@ -59,8 +58,7 @@ y(t)
 \beta_2
 \left(
 \frac{1-e^{-t/\tau}}{t/\tau}
--
-e^{-t/\tau}
+- e^{-t/\tau}
 \right)
 $$
 
@@ -166,12 +164,10 @@ The model parameters are calibrated by minimizing the squared fitting error:
 
 $$
 \text{Error}
-=
-\sum_i
+= \sum_i
 \left(
 y_{\text{market}}(t_i)
--
-y_{\text{model}}(t_i)
+- y_{\text{model}}(t_i)
 \right)^2
 $$
 
@@ -207,10 +203,8 @@ Forward rates are implied from discount factors:
 
 $$
 F(t_1,t_2)
-=
-\frac{DF(t_1)}{DF(t_2)}
--
-1
+= \frac{DF(t_1)}{DF(t_2)}
+- 1
 $$
 
 Parametric models are especially useful because they generate:
