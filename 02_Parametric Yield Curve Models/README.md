@@ -57,8 +57,7 @@ y(t)=
 +
 \beta_2
 \left(
-\frac{1-e^{-t/\tau}}{t/\tau}
-- e^{-t/\tau}
+\frac{1-e^{-t/\tau}}{t/\tau} - e^{-t/\tau}
 \right)
 $$
 
