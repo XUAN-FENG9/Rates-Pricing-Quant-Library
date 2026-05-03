@@ -47,7 +47,7 @@ Front-office trading desks therefore frequently use **parametric smoothing model
 The Nelson-Siegel model represents the zero rate curve as:
 
 $$
-y(t) =
+y(t)=
 \beta_0
 +
 \beta_1
