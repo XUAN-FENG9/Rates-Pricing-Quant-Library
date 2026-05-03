@@ -55,7 +55,7 @@ Sequentially constructing discount factors from market instruments:
 
 Implied future interest rates derived from the curve:
 
-$$F(t1, t2) = (\frac{DF(t1)}{DF(t2)} - 1) \cdot \frac{1}{t2 - t1}$$
+$$F(t_1, t_2) = (\frac{DF(t_1)}{DF(t_2)} - 1) \cdot \frac{1}{t_2 - t_1}$$
 
 ---
 
