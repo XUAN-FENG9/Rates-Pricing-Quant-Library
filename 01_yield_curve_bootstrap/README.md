@@ -34,14 +34,14 @@ This leads to a **multi-curve framework**, which is essential for:
 
 # 1.3 Key Concepts
 
-## 1. Discount Factor (DF)
+## Discount Factor (DF)
 
 Represents the present value of 1 unit of currency received in the future.
 
 Used to discount all cash flows.
 
 
-## 2. Bootstrapping
+## Bootstrapping
 
 Sequentially constructing discount factors from market instruments:
 
@@ -49,14 +49,14 @@ Sequentially constructing discount factors from market instruments:
 * IRS → long end (solve for DF)
 
 
-## 3. Forward Rates
+## Forward Rates
 
 Implied future interest rates derived from the curve:
 
 $$F(t_1, t_2) = (\frac{DF(t_1)}{DF(t_2)} - 1) \cdot \frac{1}{t_2 - t_1}$$
 
 
-## 4. Multi-Curve Framework
+## Multi-Curve Framework
 
 Modern pricing uses:
 
@@ -64,12 +64,12 @@ Modern pricing uses:
 * **LIBOR curve → forward rates**
 
 
-## 5. Swap Pricing Equation
+## Swap Pricing Equation
 
 $$K * Σ DF(t_i) = 1 - DF(T)$$
 
 
-## 6. DV01
+## DV01
 
 Measures sensitivity of price to a 1 basis point move in rates.
 
