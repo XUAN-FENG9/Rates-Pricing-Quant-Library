@@ -77,31 +77,34 @@ Measures sensitivity of price to a 1 basis point move in rates.
 
 # 1.4 Project Structure
 
-```bash
-python/
-  instruments.py          # market instrument definitions
-  interpolation.py       # log-linear interpolation
-  curve.py               # curve object (DF, forward, zero)
-  bootstrap_single_curve.py
-  bootstrap_multi_curve.py
-  pricer.py              # swap pricing
-  risk.py                # DV01
-
-cpp/
-  curve.hpp / curve.cpp  # C++ implementation
-  pricer.cpp
-  main.cpp
-
-notebooks/
-  01_bootstrap_and_multicurve.ipynb
-
-data/
-  market_data_sample.csv
-
-tests/
-  test_curve.py
+```text
+01_bootstrap_and_multicurve/
+│
+├── python/
+│   ├── instruments.py        # market instrument definitions
+│   ├── interpolation.py      # log-linear interpolation
+│   ├── curve.py              # curve object (DF, forward, zero)
+│   ├── bootstrap_single_curve.py
+│   ├── bootstrap_multi_curve.py
+│   ├── pricer.py             # swap pricing
+│   └── risk.py               # DV01
+│
+├── cpp/
+│   ├── curve.hpp / curve.cpp  # C++ implementation
+│   ├── pricer.cpp
+│   └── main.cpp
+│
+├── notebooks/
+│   └── 01_bootstrap_and_multicurve.ipynb
+│
+├── data/
+│   └── market_data_sample.csv
+│
+├── tests/
+│   └── test_curve.py
+│
+└── README.md
 ```
-
 ---
 
 # 1.5 What This Module Demonstrates
