@@ -275,7 +275,7 @@ Parametric curves are widely used in:
 - VaR systems
 - stress scenarios
 - economic capital models
-
+---
 
 # 2.11 Limitations
 
@@ -299,7 +299,7 @@ Poor initial guesses can lead to:
 
 ---
 
-# 2.11 Project Structure
+# 2.12 Project Structure
 
 ```text
 02_parametric_yield_curve_models/
@@ -331,7 +331,7 @@ Poor initial guesses can lead to:
 
 ---
 
-# 2.12 Implementation
+# 2.13 Implementation (Example Workflow)
 ## Python Dependencies
 
 Install required packages:
@@ -353,11 +353,7 @@ Open:
 ```text
 notebooks/02_nelson_siegel_model.ipynb
 ```
-
-
-## Example Workflow
-
-### Load Market Data
+## Load Market Data
 
 ```python
 curve = MarketCurve(
@@ -365,7 +361,7 @@ curve = MarketCurve(
 )
 ```
 
-### Calibrate Model
+## Calibrate Model
 
 ```python
 params = calibrate_nelson_siegel(
@@ -374,14 +370,14 @@ params = calibrate_nelson_siegel(
 )
 ```
 
-### Build Curve
+## Build Curve
 
 ```python
 model = NelsonSiegelCurve(*params)
 ```
 
 
-### Plot Curve
+## Plot Curve
 
 ```python
 plot_curve(
@@ -402,7 +398,7 @@ The fitted curve should:
 
 ---
 
-# 2.13 Key Quantitative Finance Concepts
+# 2.14 Key Quantitative Finance Concepts
 
 This chapter introduces several core quantitative finance concepts:
 
@@ -423,7 +419,7 @@ These concepts are foundational for:
 
 ---
 
-# 2.14 Suggested Extensions
+# 2.15 Suggested Extensions
 
 Possible future improvements:
 
@@ -436,7 +432,7 @@ Possible future improvements:
 
 ---
 
-# 2.15 References
+# 2.16 References
 
 ## Academic
 
@@ -451,7 +447,7 @@ Possible future improvements:
 
 ---
 
-# 2.16 Author Notes
+# 2.17 Author Notes
 
 This chapter focuses on:
 
