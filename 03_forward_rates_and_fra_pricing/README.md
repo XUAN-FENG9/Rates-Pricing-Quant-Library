@@ -1,8 +1,8 @@
-\# Chapter 03 — Forward Rates and FRA Pricing
+# Chapter 03 — Forward Rates and FRA Pricing
 
 
 
-\## Overview
+## Overview
 
 
 
@@ -10,13 +10,13 @@ This chapter introduces:
 
 
 
-\- implied forward rates
+- implied forward rates
 
-\- forward curve construction
+- forward curve construction
 
-\- FRA pricing
+- FRA pricing
 
-\- no-arbitrage relationships
+- no-arbitrage relationships
 
 
 
@@ -28,11 +28,11 @@ Forward rates are fundamental in fixed income markets because they represent:
 
 
 
-\---
+---
 
 
 
-\# Forward Rates
+# Forward Rates
 
 
 
@@ -52,21 +52,21 @@ Forward curves are critical for:
 
 
 
-\- swaps
+- swaps
 
-\- swaptions
+- swaptions
 
-\- FRA instruments
+- FRA instruments
 
-\- LIBOR market models
-
-
-
-\---
+- LIBOR market models
 
 
 
-\# FRA
+---
+
+
+
+# FRA
 
 
 
@@ -78,19 +78,19 @@ Example:
 
 
 
-\- 3x6 FRA
+- 3x6 FRA
 
-\- starts in 3 months
+- starts in 3 months
 
-\- ends in 6 months
-
-
-
-\---
+- ends in 6 months
 
 
 
-\# FRA Valuation
+---
+
+
+
+# FRA Valuation
 
 
 
@@ -106,21 +106,21 @@ where:
 
 
 
-\- $N$ = notional
+- $N$ = notional
 
-\- $F$ = forward rate
+- $F$ = forward rate
 
-\- $K$ = strike
+- $K$ = strike
 
-\- $\\Delta$ = accrual
-
-
-
-\---
+- $\\Delta$ = accrual
 
 
 
-\# FO Perspective
+---
+
+
+
+# FO Perspective
 
 
 
@@ -128,11 +128,11 @@ Forward curves are heavily monitored by:
 
 
 
-\- rates traders
+- rates traders
 
-\- central banks
+- central banks
 
-\- macro hedge funds
+- macro hedge funds
 
 
 
@@ -140,19 +140,19 @@ because they encode:
 
 
 
-\- future rate expectations
+- future rate expectations
 
-\- policy expectations
+- policy expectations
 
-\- liquidity conditions
-
-
-
-\---
+- liquidity conditions
 
 
 
-\# Key Quant Concepts
+---
+
+
+
+# Key Quant Concepts
 
 
 
@@ -160,13 +160,13 @@ This chapter introduces:
 
 
 
-\- no-arbitrage pricing
+- no-arbitrage pricing
 
-\- implied rates
+- implied rates
 
-\- forward discounting
+- forward discounting
 
-\- FRA valuation
+- FRA valuation
 
 
 
@@ -174,9 +174,9 @@ These concepts are foundational for:
 
 
 
-\- swap pricing
+- swap pricing
 
-\- swaption pricing
+- swaption pricing
 
 \- HJM models
 
