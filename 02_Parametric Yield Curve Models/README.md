@@ -1,6 +1,6 @@
 # Chapter 02 — Parametric Yield Curve Models
 
-# Overview
+# 2.1 Overview
 
 This chapter introduces **parametric yield curve modeling**, one of the most important topics in fixed income quantitative finance.
 
@@ -24,7 +24,7 @@ Both **Python** and **C++** implementations are provided.
 
 ---
 
-# Motivation
+# 2.2 Motivation
 
 In real trading systems, raw market curves are often noisy due to:
 
@@ -42,7 +42,7 @@ Front-office trading desks therefore frequently use **parametric smoothing model
 
 ---
 
-# Nelson-Siegel Model
+# 2.3 Nelson-Siegel Model
 
 The Nelson-Siegel model represents the zero rate curve as:
 
@@ -71,7 +71,7 @@ where:
 
 ---
 
-# Economic Interpretation
+# 2.4 Economic Interpretation
 
 ## Long-Term Level — $$\beta_0$$
 
@@ -85,7 +85,6 @@ $$
 
 This represents the market's long-run interest rate expectation.
 
----
 
 ## Slope Factor — $$\beta_1$$
 
@@ -100,7 +99,6 @@ This factor is highly sensitive to:
 - monetary tightening
 - liquidity conditions
 
----
 
 ## Curvature Factor — $$\beta_2$$
 
@@ -112,7 +110,6 @@ This factor affects:
 - medium maturities
 - forward curve dynamics
 
----
 
 ## Decay Parameter — $$\tau$$
 
@@ -126,7 +123,7 @@ Large $$\tau$$:
 
 ---
 
-# Svensson Extension
+# 2.5 Svensson Extension
 
 The Svensson model extends Nelson-Siegel with an additional curvature term:
 
@@ -155,7 +152,7 @@ The Svensson model is widely used by:
 
 ---
 
-# Calibration
+# 2.6 Calibration
 
 The model parameters are calibrated by minimizing the squared fitting error:
 
@@ -174,7 +171,7 @@ Optimization is performed using numerical methods such as:
 
 ---
 
-# Discount Factors
+# 2.7 Discount Factors
 
 Zero rates are converted into discount factors using:
 
@@ -192,7 +189,7 @@ Discount factors are fundamental in pricing:
 
 ---
 
-# Forward Rates
+# 2.8 Forward Rates
 
 Forward rates are implied from discount factors:
 
@@ -209,7 +206,7 @@ Parametric models are especially useful because they generate:
 
 ---
 
-# Why Front-Office Quants Care
+# 2.9 Why Front-Office Quants Care
 
 ## Stable Risk Sensitivities
 
@@ -221,7 +218,6 @@ Raw bootstrapped curves can generate unstable:
 
 Parametric smoothing improves stability.
 
----
 
 ## Better Forward Curves
 
@@ -233,7 +229,6 @@ Nelson-Siegel models help produce:
 - more realistic term structures
 - lower arbitrage risk
 
----
 
 ## Scenario Analysis
 
@@ -253,7 +248,7 @@ This is highly useful in:
 
 ---
 
-# Typical Front-Office Applications
+# 2.10 Typical Front-Office Applications
 
 ## Rates Trading
 
@@ -263,7 +258,6 @@ Used for:
 - steepener/flatteners
 - macro RV strategies
 
----
 
 ## XVA Systems
 
@@ -273,7 +267,6 @@ Smooth curves improve:
 - Monte Carlo stability
 - sensitivity consistency
 
----
 
 ## Risk Management
 
@@ -283,9 +276,8 @@ Parametric curves are widely used in:
 - stress scenarios
 - economic capital models
 
----
 
-# Limitations
+# 2.11 Limitations
 
 Despite their advantages, parametric models also have limitations.
 
@@ -293,13 +285,9 @@ Despite their advantages, parametric models also have limitations.
 
 They may fail to perfectly fit all market instruments.
 
----
-
 ## Local Structure Loss
 
 Fine-grained market features may disappear.
-
----
 
 ## Calibration Instability
 
@@ -311,7 +299,7 @@ Poor initial guesses can lead to:
 
 ---
 
-# Project Structure
+# 2.11 Project Structure
 
 ```text
 02_parametric_yield_curve_models/
@@ -343,7 +331,8 @@ Poor initial guesses can lead to:
 
 ---
 
-# Python Dependencies
+# 2.12 Implementation
+## Python Dependencies
 
 Install required packages:
 
@@ -351,9 +340,7 @@ Install required packages:
 pip install numpy pandas matplotlib scipy
 ```
 
----
-
-# Running the Notebook
+## Running the Notebook
 
 Launch Jupyter Notebook:
 
@@ -367,11 +354,10 @@ Open:
 notebooks/02_nelson_siegel_model.ipynb
 ```
 
----
 
-# Example Workflow
+## Example Workflow
 
-## Load Market Data
+### Load Market Data
 
 ```python
 curve = MarketCurve(
@@ -379,9 +365,7 @@ curve = MarketCurve(
 )
 ```
 
----
-
-## Calibrate Model
+### Calibrate Model
 
 ```python
 params = calibrate_nelson_siegel(
@@ -390,17 +374,14 @@ params = calibrate_nelson_siegel(
 )
 ```
 
----
-
-## Build Curve
+### Build Curve
 
 ```python
 model = NelsonSiegelCurve(*params)
 ```
 
----
 
-## Plot Curve
+### Plot Curve
 
 ```python
 plot_curve(
@@ -410,9 +391,7 @@ plot_curve(
 )
 ```
 
----
-
-# Expected Results
+## Expected Results
 
 The fitted curve should:
 
@@ -423,7 +402,7 @@ The fitted curve should:
 
 ---
 
-# Key Quantitative Finance Concepts
+# 2.13 Key Quantitative Finance Concepts
 
 This chapter introduces several core quantitative finance concepts:
 
@@ -444,7 +423,7 @@ These concepts are foundational for:
 
 ---
 
-# Suggested Extensions
+# 2.14 Suggested Extensions
 
 Possible future improvements:
 
@@ -457,14 +436,12 @@ Possible future improvements:
 
 ---
 
-# References
+# 2.15 References
 
 ## Academic
 
 - Nelson, C. and Siegel, A. (1987)
 - Svensson, L. (1994)
-
----
 
 ## Industry
 
@@ -474,7 +451,7 @@ Possible future improvements:
 
 ---
 
-# Author Notes
+# 2.16 Author Notes
 
 This chapter focuses on:
 
