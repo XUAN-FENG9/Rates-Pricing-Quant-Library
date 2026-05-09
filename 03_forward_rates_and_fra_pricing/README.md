@@ -178,6 +178,7 @@ These concepts are foundational for:
 ---
 
 # 3.7 Project Structure
+```test
 03_forward_rates_and_fra_pricing/
 │
 ├── python/
@@ -204,5 +205,5 @@ These concepts are foundational for:
 │   └── test_fra.py
 │
 └── README.md
-
+```
 
