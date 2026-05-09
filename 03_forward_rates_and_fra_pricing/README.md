@@ -171,7 +171,38 @@ These concepts are foundational for:
 
 - swaption pricing
 
-\- HJM models
+- HJM models
 
-\- LMM frameworks
+- LMM frameworks
+
+---
+
+# 3.7 Project Structure
+03_forward_rates_and_fra_pricing/
+│
+├── python/
+│   ├── curve.py
+│   ├── forward_rates.py
+│   ├── fra.py
+│   ├── market_data.py
+│   └── plotting.py
+│
+├── cpp/
+│   ├── curve.hpp
+│   ├── curve.cpp
+│   ├── fra.hpp
+│   ├── fra.cpp
+│   └── main.cpp
+│
+├── notebooks/
+│   └── 03_forward_rates_and_fra_pricing.ipynb
+│
+├── data/
+│   └── usd_zero_curve.csv
+│
+├── tests/
+│   └── test_fra.py
+│
+└── README.md
+
 
