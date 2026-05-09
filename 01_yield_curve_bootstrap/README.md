@@ -90,7 +90,8 @@ Measures sensitivity of price to a 1 basis point move in rates.
 │   └── risk.py               # DV01
 │
 ├── cpp/
-│   ├── curve.hpp / curve.cpp  # C++ implementation
+│   ├── curve.hpp 
+│   ├── curve.cpp  # C++ implementation
 │   ├── pricer.cpp
 │   └── main.cpp
 │
