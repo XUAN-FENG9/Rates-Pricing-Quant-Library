@@ -39,12 +39,7 @@ Forward rates are fundamental in fixed income markets because they represent:
 Forward rates are derived from discount factors:
 
 
-$$
-
-F(t\_1,t\_2) 
-= \\frac{DF(t\_1)}{DF(t\_2)} - 1
-
-$$
+$$ F(t\_1,t\_2)  = \\frac{DF(t\_1)}{DF(t\_2)} - 1 $$
 
 
 
