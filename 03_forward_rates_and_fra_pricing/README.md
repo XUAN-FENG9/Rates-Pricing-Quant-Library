@@ -2,7 +2,7 @@
 
 
 
-## Overview
+# 3.1 Overview
 
 
 
@@ -32,7 +32,7 @@ Forward rates are fundamental in fixed income markets because they represent:
 
 
 
-# Forward Rates
+# 3.2 Forward Rates
 
 
 
@@ -61,7 +61,7 @@ Forward curves are critical for:
 
 
 
-# FRA
+# 3.3 FRA
 
 
 
@@ -85,7 +85,7 @@ Example:
 
 
 
-# FRA Valuation
+# 3.4 FRA Valuation
 
 
 
@@ -113,7 +113,7 @@ where:
 
 
 
-# FO Perspective
+# 3.5 FO Perspective
 
 
 
@@ -145,7 +145,7 @@ because they encode:
 
 
 
-# Key Quant Concepts
+# 3.6 Key Quant Concepts
 
 
 
