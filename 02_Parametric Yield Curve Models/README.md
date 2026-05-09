@@ -1,6 +1,6 @@
 # Chapter 02 — Parametric Yield Curve Models
 
-## Overview
+# Overview
 
 This chapter introduces **parametric yield curve modeling**, one of the most important topics in fixed income quantitative finance.
 
