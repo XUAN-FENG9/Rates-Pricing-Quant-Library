@@ -90,9 +90,7 @@ Example:
 
 
 $$
-
 PV = N(F-K)\\Delta DF
-
 $$
 
 
