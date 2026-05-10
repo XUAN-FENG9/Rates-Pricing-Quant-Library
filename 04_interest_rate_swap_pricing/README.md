@@ -1,55 +1,34 @@
-\# Chapter 04 — Interest Rate Swap Pricing
+# Chapter 04 — Interest Rate Swap Pricing
 
 
 
-\## Overview
-
-
+# 4.1 Overview
 
 This chapter introduces:
 
+- fixed-for-floating swaps
 
+- swap cashflows
 
-\- fixed-for-floating swaps
+- swap NPV
 
-\- swap cashflows
+- par swap rates
 
-\- swap NPV
-
-\- par swap rates
-
-\- payer and receiver swaps
-
+- payer and receiver swaps
 
 
 Interest rate swaps are among the most important products in fixed income markets.
 
 
-
-\---
-
-
-
-\# Swap Structure
-
-
+# 4.2 Swap Structure
 
 A plain vanilla swap exchanges:
 
+- fixed coupons
+- floating coupons
 
 
-\- fixed coupons
-
-\- floating coupons
-
-
-
-\---
-
-
-
-\# Fixed Leg
-
+## 4.2.1 Fixed Leg
 
 
 $$
@@ -58,14 +37,7 @@ CF\_{fixed} = N \\times K \\times \\Delta
 
 $$
 
-
-
-\---
-
-
-
-\# Floating Leg
-
+# # 4.2.2 Floating Leg
 
 
 $$
@@ -75,18 +47,9 @@ CF\_{float} = N \\times F \\times \\Delta
 $$
 
 
+# 4.3 Swap Valuation
 
-\---
-
-
-
-\# Swap Valuation
-
-
-
-Payer swap:
-
-
+- Payer swap:
 
 $$
 
@@ -94,15 +57,15 @@ NPV = PV\_{float} - PV\_{fixed}
 
 $$
 
+- Receiver swap:
 
+$$
 
-\---
+NPV = PV\_{fixed} - PV\_{float} 
 
+$$
 
-
-\# Par Swap Rate
-
-
+# 4.4 Par Swap Rate
 
 $$
 
@@ -111,28 +74,21 @@ K = \\frac{1 - DF(T)}{\\sum\_i \\Delta\_i DF(t\_i)}
 $$
 
 
-
-\---
-
-
-
-\# Key Quantitative Concepts
-
+# 4.5 Key Quantitative Concepts
 
 
 This chapter introduces:
 
 
+- discounted cashflow pricing
 
-\- discounted cashflow pricing
+- swap valuation
 
-\- swap valuation
+- forward projection
 
-\- forward projection
+- par rates
 
-\- par rates
-
-\- curve sensitivity
+- curve sensitivity
 
 
 
@@ -140,17 +96,17 @@ These concepts are foundational for:
 
 
 
-\- swaptions
+- swaptions
 
-\- Bermudan products
+- Bermudan products
 
-\- LMM models
+- LMM models
 
-\- XVA systems
+- XVA systems
 
 
 
-\# Project Structure
+# 4.6 Project Structure
 
 
 
