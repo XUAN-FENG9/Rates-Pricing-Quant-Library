@@ -1,7 +1,6 @@
 # Chapter 04 — Interest Rate Swap Pricing
 
 
-
 # 4.1 Overview
 
 This chapter introduces:
@@ -19,6 +18,7 @@ This chapter introduces:
 
 Interest rate swaps are among the most important products in fixed income markets.
 
+---
 
 # 4.2 Swap Structure
 
@@ -32,45 +32,36 @@ A plain vanilla swap exchanges:
 
 
 $$
-
 CF\_{fixed} = N \\times K \\times \\Delta
-
 $$
 
 # # 4.2.2 Floating Leg
 
 
 $$
-
 CF\_{float} = N \\times F \\times \\Delta
-
 $$
 
-
+---
 # 4.3 Swap Valuation
 
 - Payer swap:
 
 $$
-
 NPV = PV\_{float} - PV\_{fixed}
-
 $$
 
 - Receiver swap:
 
 $$
-
 NPV = PV\_{fixed} - PV\_{float} 
-
 $$
 
+---
 # 4.4 Par Swap Rate
 
 $$
-
 K = \\frac{1 - DF(T)}{\\sum\_i \\Delta\_i DF(t\_i)}
-
 $$
 
 
@@ -113,57 +104,31 @@ These concepts are foundational for:
 ```text
 
 04\_interest\_rate\_swap\_pricing/
-
 │
-
 ├── python/
-
 │   ├── curve.py
-
 │   ├── fixed\_leg.py
-
 │   ├── floating\_leg.py
-
 │   ├── swap.py
-
 │   ├── market\_data.py
-
 │   └── plotting.py
-
 │
-
 ├── cpp/
-
 │   ├── curve.hpp
-
 │   ├── curve.cpp
-
 │   ├── swap.hpp
-
 │   ├── swap.cpp
-
 │   └── main.cpp
-
 │
-
 ├── notebooks/
-
 │   └── 04\_interest\_rate\_swap\_pricing.ipynb
-
 │
-
 ├── data/
-
 │   └── usd\_zero\_curve.csv
-
 │
-
 ├── tests/
-
 │   └── test\_swap.py
-
 │
-
 └── README.md
 
 ```
