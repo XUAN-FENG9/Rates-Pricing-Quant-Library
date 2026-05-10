@@ -64,7 +64,7 @@ $$
 K = \\frac{1 - DF(T)}{\\sum\_i \\Delta\_i DF(t\_i)}
 $$
 
-
+---
 # 4.5 Key Quantitative Concepts
 
 
@@ -96,7 +96,7 @@ These concepts are foundational for:
 - XVA systems
 
 
-
+---
 # 4.6 Project Structure
 
 
