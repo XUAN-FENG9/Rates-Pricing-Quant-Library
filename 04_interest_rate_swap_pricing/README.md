@@ -28,14 +28,14 @@ A plain vanilla swap exchanges:
 - floating coupons
 
 
-## 4.2.1 Fixed Leg
+## Fixed Leg
 
 
 $$
 CF\_{fixed} = N \\times K \\times \\Delta
 $$
 
-# # 4.2.2 Floating Leg
+## Floating Leg
 
 
 $$
