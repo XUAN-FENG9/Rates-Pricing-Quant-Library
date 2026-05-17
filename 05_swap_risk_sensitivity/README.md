@@ -1,124 +1,81 @@
-\# Chapter 05 — Swap Risk Sensitivity
+# Chapter 05 — Swap Risk Sensitivity
 
-
-
-\# 5.1 Overview
-
-
+# 5.1 Overview
 
 This chapter introduces:
 
+- DV01
 
+- PV01
 
-\- DV01
+- key rate risk
 
-\- PV01
+- curve shocks
 
-\- key rate risk
+- steepener trades
 
-\- curve shocks
+- flattener trades
 
-\- steepener trades
-
-\- flattener trades
-
-\- scenario analysis
+- scenario analysis
 
 
 
 This chapter moves from:
 
-
-
 > pricing
-
-
-
 to:
-
-
-
 > risk management and trading analytics.
 
+---
 
-
-\---
-
-
-
-\# 5.2 Why Risk Matters
-
-
+# 5.2 Why Risk Matters
 
 Interest rate swaps are highly sensitive to:
 
+- level shifts
 
+- steepening
 
-\- level shifts
+- flattening
 
-\- steepening
-
-\- flattening
-
-\- forward curve changes
-
+- forward curve changes
 
 
 Rates desks continuously monitor:
 
+- DV01
 
+- key rate duration
 
-\- DV01
+- bucketed risk
 
-\- key rate duration
+- hedge ratios
 
-\- bucketed risk
+---
 
-\- hedge ratios
-
-
-
-\---
-
-
-
-\# 5.3 DV01
+# 5.3 DV01
 
 
 
 DV01 measures:
 
-
-
 > the dollar change in instrument value
 
 > for a 1bp parallel move in rates.
 
-
-
 Formula:
-
-
-
 $$
 
 DV01 = PV(r+1bp)-PV(r)
 
 $$
 
+---
 
 
-\---
-
-
-
-\# 5.4 PV01
-
-
+# 5.4 PV01
 
 PV01 is the absolute magnitude of DV01.
-
-
 
 $$
 
@@ -126,95 +83,59 @@ PV01 = |DV01|
 
 $$
 
-
-
-\---
+---
 
 
 
-\# 5.5 Key Rate Risk
-
-
+# 5.5 Key Rate Risk
 
 Key rate DV01 measures sensitivity to:
 
+- specific maturities
 
-
-\- specific maturities
-
-\- curve buckets
-
-
+- curve buckets
 
 Example:
 
+- 2Y sensitivity
 
+- 5Y sensitivity
 
-\- 2Y sensitivity
+- 10Y sensitivity
 
-\- 5Y sensitivity
-
-\- 10Y sensitivity
-
-
-
-\---
+---
 
 
 
-\# 5.6 Curve Scenarios
-
-
+# 5.6 Curve Scenarios
 
 We implement:
 
-
-
-\## Steepener
-
-
+## Steepener
 
 Long-end rates rise more than short-end.
 
-
-
 Typical macro interpretation:
 
+- inflation fears
+
+- higher term premium
 
 
-\- inflation fears
-
-\- higher term premium
-
-
-
-
-
-
-
-\## Flattener
-
-
+## Flattener
 
 Short-end rates rise more than long-end.
 
-
-
 Typical macro interpretation:
 
+- central bank tightening
+
+- recession fears
 
 
-\- central bank tightening
+---
 
-\- recession fears
-
-
-
-\---
-
-
-
-\# 5.6 Project Structure
+# 5.6 Project Structure
 
 ```text
 
@@ -280,135 +201,95 @@ Typical macro interpretation:
 
 ```
 
-\---
+---
 
-
-
-\# 5.7 Key Quantitative Concepts
-
-
+# 5.7 Key Quantitative Concepts
 
 This chapter introduces:
 
+- bump-and-reprice
 
+- sensitivity analysis
 
-\- bump-and-reprice
+- scenario stress testing
 
-\- sensitivity analysis
-
-\- scenario stress testing
-
-\- curve risk decomposition
-
-
+- curve risk decomposition
 
 These concepts are foundational for:
 
+- XVA
+
+- VaR
+
+- Monte Carlo risk
+
+- balance sheet management
+
+- trading analytics
+
+---
 
 
-\- XVA
+# 5.9 Python vs C++
 
-\- VaR
+## Python
 
-\- Monte Carlo risk
+Used for:
 
-\- balance sheet management
+- prototyping
 
-\- trading analytics
+- research
 
+- analytics
 
+- visualization
 
-\---
-
-
-
-\# 5.9 Python vs C++
+---
 
 
-
-\## Python
+## C++
 
 
 
 Used for:
 
+- production risk engines
+
+- overnight risk runs
+
+- low-latency pricing
+
+- large-scale portfolio analytics
 
 
-\- prototyping
-
-\- research
-
-\- analytics
-
-\- visualization
-
-
-
-\---
+---
 
 
 
-\## C++
-
-
-
-Used for:
-
-
-
-\- production risk engines
-
-\- overnight risk runs
-
-\- low-latency pricing
-
-\- large-scale portfolio analytics
-
-
-
-\---
-
-
-
-\# 5.10 From Next Chapter
-
-
+# 5.10 From Next Chapter
 
 Chapter 06 introduces:
 
-
-
-\# Black Swaption Pricing
-
-
+# Black Swaption Pricing
 
 We will build:
 
+- Black's model
 
+- swaption pricing
 
-\- Black's model
+- implied volatility
 
-\- swaption pricing
+- Greeks
 
-\- implied volatility
-
-\- Greeks
-
-\- volatility smiles
-
+- volatility smiles
 
 
 This moves us from:
 
-
-
 > linear rates products
 
-
-
 to:
-
-
 
 > nonlinear volatility derivatives.
 
