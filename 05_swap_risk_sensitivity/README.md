@@ -132,7 +132,7 @@ Typical macro interpretation:
 
 ---
 
-# 5.6 Project Structure
+# 5.7 Project Structure
 
 ```text
 
@@ -171,7 +171,7 @@ Typical macro interpretation:
 
 ---
 
-# 5.7 Key Quantitative Concepts
+# 5.8 Key Quantitative Concepts
 
 This chapter introduces:
 
@@ -211,8 +211,6 @@ Used for:
 - analytics
 
 - visualization
-
----
 
 
 ## C++
