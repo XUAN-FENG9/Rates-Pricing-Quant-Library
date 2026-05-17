@@ -65,9 +65,7 @@ DV01 measures:
 
 Formula:
 $$
-
 DV01 = PV(r+1bp)-PV(r)
-
 $$
 
 ---
@@ -78,9 +76,7 @@ $$
 PV01 is the absolute magnitude of DV01.
 
 $$
-
 PV01 = |DV01|
-
 $$
 
 ---
@@ -139,7 +135,7 @@ Typical macro interpretation:
 
 ```text
 
-05\_swap\_risk\_sensitivity/
+05_swap_risk_sensitivity/
 
 │
 
@@ -151,11 +147,11 @@ Typical macro interpretation:
 
 │   ├── risk.py
 
-│   ├── key\_rate\_risk.py
+│   ├── key_rate_risk.py
 
-│   ├── scenario\_analysis.py
+│   ├── scenario_analysis.py
 
-│   ├── market\_data.py
+│   ├── market_data.py
 
 │   └── plotting.py
 
@@ -181,19 +177,19 @@ Typical macro interpretation:
 
 ├── notebooks/
 
-│   └── 05\_swap\_risk\_sensitivity.ipynb
+│   └── 05_swap_risk_sensitivity.ipynb
 
 │
 
 ├── data/
 
-│   └── usd\_zero\_curve.csv
+│   └── usd_zero_curve.csv
 
 │
 
 ├── tests/
 
-│   └── test\_risk.py
+│   └── test_risk.py
 
 │
 
