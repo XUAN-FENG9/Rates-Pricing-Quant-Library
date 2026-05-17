@@ -236,7 +236,7 @@ Used for:
 
 Chapter 06 introduces:
 
-# Black Swaption Pricing
+## Black Swaption Pricing
 
 We will build:
 
