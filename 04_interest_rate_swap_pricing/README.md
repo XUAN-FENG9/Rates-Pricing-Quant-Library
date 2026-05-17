@@ -103,14 +103,14 @@ These concepts are foundational for:
 
 ```text
 
-04\_interest\_rate\_swap\_pricing/
+04_interest_rate_swap_pricing/
 │
 ├── python/
 │   ├── curve.py
-│   ├── fixed\_leg.py
-│   ├── floating\_leg.py
+│   ├── fixed_leg.py
+│   ├── floating_leg.py
 │   ├── swap.py
-│   ├── market\_data.py
+│   ├── market_data.py
 │   └── plotting.py
 │
 ├── cpp/
@@ -121,13 +121,13 @@ These concepts are foundational for:
 │   └── main.cpp
 │
 ├── notebooks/
-│   └── 04\_interest\_rate\_swap\_pricing.ipynb
+│   └── 04_interest_rate_swap_pricing.ipynb
 │
 ├── data/
-│   └── usd\_zero\_curve.csv
+│   └── usd_zero_curve.csv
 │
 ├── tests/
-│   └── test\_swap.py
+│   └── test_swap.py
 │
 └── README.md
 
