@@ -64,6 +64,7 @@ DV01 measures:
 > for a 1bp parallel move in rates.
 
 Formula:
+
 $$
 DV01 = PV(r+1bp)-PV(r)
 $$
@@ -136,63 +137,34 @@ Typical macro interpretation:
 ```text
 
 05_swap_risk_sensitivity/
-
 │
-
 ├── python/
-
 │   ├── curve.py
-
 │   ├── swap.py
-
 │   ├── risk.py
-
 │   ├── key_rate_risk.py
-
 │   ├── scenario_analysis.py
-
 │   ├── market_data.py
-
 │   └── plotting.py
-
 │
-
 ├── cpp/
-
 │   ├── curve.hpp
-
 │   ├── curve.cpp
-
 │   ├── swap.hpp
-
 │   ├── swap.cpp
-
 │   ├── risk.hpp
-
 │   ├── risk.cpp
-
 │   └── main.cpp
-
 │
-
 ├── notebooks/
-
 │   └── 05_swap_risk_sensitivity.ipynb
-
 │
-
 ├── data/
-
 │   └── usd_zero_curve.csv
-
 │
-
 ├── tests/
-
 │   └── test_risk.py
-
 │
-
 └── README.md
 
 ```
