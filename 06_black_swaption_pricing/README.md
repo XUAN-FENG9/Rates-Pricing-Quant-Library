@@ -1,9 +1,7 @@
 # Chapter 06 — Black Swaption Pricing
 
 
-
 # 6.1 Overview
-
 
 
 This chapter introduces:
@@ -233,8 +231,6 @@ Used for:
 - calibration
 
 - analytics
-
----
 
 ## C++
 
