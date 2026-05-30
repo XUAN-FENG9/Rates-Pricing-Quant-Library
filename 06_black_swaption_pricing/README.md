@@ -84,6 +84,7 @@ Price = N \\times A \\times \\left(F N(d\_1) - K N(d\_2)\\right)
 $$
 
 where:
+
 $$
 d\_1 = \\frac{\\ln(F/K) + \\frac12 \\sigma^2 T}{\\sigma \\sqrt{T}}
 $$
