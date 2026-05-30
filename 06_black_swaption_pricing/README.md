@@ -129,6 +129,8 @@ This motivates:
 
 - local volatility models
 
+---
+
 # 6.5 Greeks
 
 This chapter introduces:
