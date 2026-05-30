@@ -129,23 +129,15 @@ This motivates:
 
 - local volatility models
 
----
-
 # 6.5 Greeks
 
 This chapter introduces:
 
 - Vega
-- 
+
 - volatility sensitivity
 
-Later chapters extend this to:
-
-- Delta
-
-- Gamma
-
-- cross-greeks
+And also explore & discusses the close-to-linear volatility sensitivity for ATM swaptions.
 
 ---
 
