@@ -1,8 +1,8 @@
-\# Chapter 07 — Local Volatility and Dupire
+# Chapter 07 — Local Volatility and Dupire
 
 
 
-\# 7.1 Overview
+# 7.1 Overview
 
 
 
@@ -42,11 +42,11 @@ The implementation reuses the pricing infrastructure developed in previous chapt
 
 
 
-\- Yield Curve Construction (Chapter 01)
+- Yield Curve Construction (Chapter 01)
 
-\- Forward Starting Swaps (Chapter 04)
+- Forward Starting Swaps (Chapter 04)
 
-\- Black Swaption Pricing (Chapter 06)
+- Black Swaption Pricing (Chapter 06)
 
 
 
@@ -54,11 +54,11 @@ The objective is to demonstrate how market option prices can be transformed into
 
 
 
-\---
+---
 
 
 
-\# 7.2 Learning Objectives
+# 7.2 Learning Objectives
 
 
 
@@ -66,27 +66,26 @@ By completing this chapter, readers should understand:
 
 
 
-\- the difference between implied volatility and local volatility
+- the difference between implied volatility and local volatility
 
-\- how market swaption quotes are transformed into a volatility surface
+- how market swaption quotes are transformed into a volatility surface
 
-\- how Dupire's formula extracts local volatility
+- how Dupire's formula extracts local volatility
 
-\- why local volatility depends on both time and strike
+- why local volatility depends on both time and strike
 
-\- how interpolation is used for non-standard expiries and strikes
+- how interpolation is used for non-standard expiries and strikes
 
-\- why numerical stability is a major challenge in local volatility modelling
-
-
-
-\---
+- why numerical stability is a major challenge in local volatility modelling
 
 
 
+---
 
 
-\# 7.3 Implied Volatility Surface
+
+
+# 7.3 Implied Volatility Surface
 
 
 
@@ -100,7 +99,7 @@ The implied volatility surface is represented as:
 
 $$
 
-\\sigma\_{imp}(T,K)
+\sigma\_{imp}(T,K)
 
 $$
 
@@ -110,9 +109,9 @@ where:
 
 
 
-\- \\(T\\) = option expiry
+- \\(T\\) = option expiry
 
-\- \\(K\\) = strike
+- \\(K\\) = strike
 
 
 
@@ -124,11 +123,11 @@ Instead, they are market observations extracted from traded swaption prices.
 
 
 
-\---
+---
 
 
 
-\# 7.4 Building the Option Price Surface
+# 7.4 Building the Option Price Surface
 
 
 
@@ -142,7 +141,7 @@ Using the Chapter 06 Black swaption pricer, we convert:
 
 $$
 
-\\sigma\_{imp}(T,K)
+\sigma\_{imp}(T,K)
 
 $$
 
@@ -190,11 +189,11 @@ For each grid point:
 
 
 
-\---
+---
 
 
 
-\# 7.5 Dupire Local Volatility
+# 7.5 Dupire Local Volatility
 
 
 
@@ -204,19 +203,19 @@ Dupire's formula converts the option price surface into a local volatility surfa
 
 $$
 
-\\sigma\_{loc}^{2}(T,K)
+\sigma\_{loc}^{2}(T,K)
 
 =
 
-\\frac{
+\frac{
 
-\\frac{\\partial C}{\\partial T}
+\frac{\\partial C}{\\partial T}
 
 }{
 
-\\frac12 K^2
+\frac12 K^2
 
-\\frac{\\partial^2 C}{\\partial K^2}
+\frac{\\partial^2 C}{\\partial K^2}
 
 }
 
@@ -228,9 +227,9 @@ where:
 
 
 
-\- $$\\frac{\\partial C}{\\partial T}$$ measures sensitivity to expiry
+- $$\\frac{\\partial C}{\\partial T}$$ measures sensitivity to expiry
 
-\- $$\\frac{\\partial^2 C}{\\partial K^2}$$ measures strike convexity
+- $$\\frac{\\partial^2 C}{\\partial K^2}$$ measures strike convexity
 
 
 
@@ -240,7 +239,7 @@ The resulting local volatility surface is:
 
 $$
 
-\\sigma\_{loc}(T,K)
+\sigma\_{loc}(T,K)
 
 $$
 
@@ -250,11 +249,11 @@ Unlike implied volatility, local volatility is a model quantity rather than a ma
 
 
 
-\---
+---
 
 
 
-\# 7.6 From Calibration to Simulation
+# 7.6 From Calibration to Simulation
 
 
 
@@ -284,7 +283,7 @@ The resulting local volatility surface is:
 
 $$
 
-\\sigma\_{loc}(T,K)
+\sigma\_{loc}(T,K)
 
 $$
 
@@ -300,7 +299,7 @@ dF\_t
 
 =
 
-\\sigma\_{loc}(t,F\_t)
+\sigma\_{loc}(t,F\_t)
 
 F\_t
 
@@ -314,9 +313,9 @@ where:
 
 
 
-\- \\(F\_t\\) is the forward swap rate
+- \\(F\_t\\) is the forward swap rate
 
-\- \\(t\\) is simulation time
+- \\(t\\) is simulation time
 
 
 
@@ -326,7 +325,7 @@ Consequently:
 
 $$
 
-\\sigma\_{loc}(T,K)
+\sigma\_{loc}(T,K)
 
 $$
 
@@ -338,7 +337,7 @@ and
 
 $$
 
-\\sigma\_{loc}(t,F\_t)
+\sigma\_{loc}(t,F\_t)
 
 $$
 
@@ -352,11 +351,11 @@ This observation explains why local volatility models can reproduce the market v
 
 
 
-\---
+---
 
 
 
-\# 7.7 From Market Quotes to Stochastic Dynamics
+# 7.7 From Market Quotes to Stochastic Dynamics
 
 
 
@@ -364,7 +363,7 @@ One of the most important conceptual steps in local volatility modelling is unde
 
 
 
-\## Step 1: Market Quote Space
+## Step 1: Market Quote Space
 
 
 
@@ -384,9 +383,9 @@ where:
 
 
 
-\- $T$ = option expiry
+- $T$ = option expiry
 
-\- $K$ = strike
+- $K$ = strike
 
 
 
@@ -412,7 +411,7 @@ These market observations define the implied volatility surface:
 
 $$
 
-\\sigma\_{imp}(T,K)
+\sigma\_{imp}(T,K)
 
 $$
 
@@ -436,7 +435,7 @@ Dupire's formula then produces the local volatility surface:
 
 $$
 
-\\sigma\_{loc}(T,K)
+\sigma\_{loc}(T,K)
 
 $$
 
@@ -448,7 +447,7 @@ At this stage, the surface still lives entirely in quote space.
 
 
 
-\## Step 2: Local Volatility Model
+## Step 2: Local Volatility Model
 
 
 
@@ -458,13 +457,11 @@ The local volatility model assumes that the forward swap rate evolves according 
 
 $$
 
-dF\_t
+dF\_t =
 
-=
+\sigma\_{loc}(t,F\_t)
 
-\\sigma\_{loc}(t,F\_t)
-
-\\,F\_t\\,dW\_t
+\,F\_t\\,dW\_t
 
 $$
 
@@ -478,17 +475,17 @@ Instead, volatility depends on:
 
 
 
-\- current simulation time \\(t\\)
+- current simulation time \\(t\\)
 
-\- current forward swap rate level \\(F\_t\\)
-
-
+- current forward swap rate level \\(F\_t\\)
 
 
 
 
 
-\## Step 3: Connecting the Two Views
+
+
+## Step 3: Connecting the Two Views
 
 
 
@@ -502,7 +499,7 @@ Quote Space:
 
 $$
 
-\\sigma\_{loc}(T,K)
+\sigma\_{loc}(T,K)
 
 $$
 
@@ -514,7 +511,7 @@ Simulation Space:
 
 $$
 
-\\sigma\_{loc}(t,F\_t)
+\sigma\_{loc}(t,F\_t)
 
 $$
 
@@ -562,7 +559,7 @@ The surface is simply being viewed from two different perspectives.
 
 
 
-\## Example
+## Example
 
 
 
@@ -572,7 +569,7 @@ Suppose Dupire calibration produces:
 
 $$
 
-\\sigma\_{loc}(5,\\;4\\%)
+\sigma\_{loc}(5,\\;4\\%)
 
 =
 
@@ -654,7 +651,7 @@ The exact same surface value that was previously calibrated from market option p
 
 
 
-\## Why This Matters
+## Why This Matters
 
 
 
@@ -670,9 +667,9 @@ As a result:
 
 
 
-\- calibration is performed in quote space \\((T,K)\\)
+- calibration is performed in quote space \\((T,K)\\)
 
-\- simulation is performed in state space \\((t,F\_t)\\)
+- simulation is performed in state space \\((t,F\_t)\\)
 
 
 
@@ -684,11 +681,11 @@ Understanding this connection is one of the key conceptual steps in moving from 
 
 
 
-\---
+---
 
 
 
-\# 7.8 Off-Grid Interpolation
+# 7.8 Off-Grid Interpolation
 
 
 
@@ -754,11 +751,11 @@ The C++ implementation uses bilinear interpolation.
 
 
 
-\---
+---
 
 
 
-\# 7.9 Numerical Stability
+# 7.9 Numerical Stability
 
 
 
@@ -772,7 +769,7 @@ Dupire requires numerical differentiation:
 
 $$
 
-\\frac{\\partial C}{\\partial T}
+\frac{\\partial C}{\\partial T}
 
 $$
 
@@ -784,7 +781,7 @@ and
 
 $$
 
-\\frac{\\partial^2 C}{\\partial K^2}
+\frac{\\partial^2 C}{\\partial K^2}
 
 $$
 
@@ -798,15 +795,15 @@ Common production solutions include:
 
 
 
-\- surface smoothing
+- surface smoothing
 
-\- arbitrage filtering
+- arbitrage filtering
 
-\- monotone interpolation
+- monotone interpolation
 
-\- regularization
+- regularization
 
-\- parametric volatility models
+- parametric volatility models
 
 
 
@@ -814,11 +811,11 @@ This is one reason why SABR models are frequently preferred in interest rate mar
 
 
 
-\---
+---
 
 
 
-\# 7.10 Cross-Language Validation
+# 7.10 Cross-Language Validation
 
 
 
@@ -850,11 +847,11 @@ As a result, interpolated local volatility values may differ slightly even when:
 
 
 
-\- market data are identical
+- market data are identical
 
-\- option prices are identical
+- option prices are identical
 
-\- Dupire calculations are identical
+- Dupire calculations are identical
 
 
 
@@ -874,15 +871,15 @@ This confirms that the observed discrepancies originate from interpolation metho
 
 
 
-\---
+---
 
 
 
-\# 7.11 Test Cases
+# 7.11 Test Cases
 
 
 
-\## End-to-End Dupire Workflow
+## End-to-End Dupire Workflow
 
 
 
@@ -924,7 +921,7 @@ and verifies that finite local volatility values are produced.
 
 
 
-\## Off-Grid Local Volatility Pricing
+## Off-Grid Local Volatility Pricing
 
 
 
@@ -940,11 +937,11 @@ Demonstrates:
 
 
 
-\- local volatility interpolation
+- local volatility interpolation
 
-\- non-standard expiry handling
+- non-standard expiry handling
 
-\- integration with the Chapter 06 swaption pricer
+- integration with the Chapter 06 swaption pricer
 
 
 
@@ -952,91 +949,59 @@ The resulting price is intended as a workflow validation rather than a productio
 
 
 
-\---
+---
 
-\# 7.12 Project Structure
+# 7.12 Project Structure
 
 
 
 ```text
 
 07\\\_local\\\_volatility\\\_and\\\_dupire/
-
 │
-
 ├── python/
-
 │   ├── market\\\_data.py
-
 │   ├── vol\\\_surface.py
-
 │   ├── swaption\\\_price\\\_surface.py
-
 │   ├── dupire\\\_builder.py
-
 │   ├── local\\\_vol\\\_surface.py
-
 │   └── plotting.py
-
 │
-
 ├── cpp/
-
 │   ├── VolSurface.hpp
-
 │   ├── VolSurface.cpp
-
 │   ├── SwaptionPriceSurface.hpp
-
 │   ├── SwaptionPriceSurface.cpp
-
 │   ├── DupireBuilder.hpp
-
 │   ├── DupireBuilder.cpp
-
 │   ├── LocalVolSurface.hpp
-
 │   ├── LocalVolSurface.cpp
-
 │   └── main.cpp
-
 │
-
 ├── data/
-
 │   ├── curve\\\_data.csv
-
 │   └── swaption\\\_vol\\\_surface.csv
-
 │
-
 ├── tests/
-
 │   ├── test\\\_dupire\\\_workflow.py
-
 │   └── test\\\_off\\\_grid\\\_local\\\_vol\\\_pricing.py
-
 │
-
 ├── notebooks/
-
 │   └── 07\\\_local\\\_volatility\\\_and\\\_dupire.ipynb
-
 │
-
 └── README.md
 
 ```
 
 
 
-\---
+---
 
-\# Summary
+# Summary
 
 
 
-\## Quant Notes
+## Quant Notes
 
 
 
@@ -1052,15 +1017,15 @@ Understanding this connection is essential for:
 
 
 
-\- local volatility models
+- local volatility models
 
-\- stochastic volatility models
+- stochastic volatility models
 
-\- SABR calibration
+- SABR calibration
 
-\- Monte Carlo simulation
+- Monte Carlo simulation
 
-\- finite difference pricing
+- finite difference pricing
 
 
 
@@ -1070,11 +1035,11 @@ The next chapter extends these ideas using the SABR model, which provides a more
 
 
 
-\## Next Chapter
+## Next Chapter
 
 
 
-\### Chapter 08 — SABR Volatility Surface Calibration
+### Chapter 08 — SABR Volatility Surface Calibration
 
 
 
@@ -1082,17 +1047,17 @@ Topics include:
 
 
 
-\- SABR dynamics
+- SABR dynamics
 
-\- volatility smile generation
+- volatility smile generation
 
-\- skew modelling
+- skew modelling
 
-\- parameter calibration
+- parameter calibration
 
-\- swaption volatility surface fitting
+- swaption volatility surface fitting
 
-\- market calibration techniques
+- market calibration techniques
 
 
 
