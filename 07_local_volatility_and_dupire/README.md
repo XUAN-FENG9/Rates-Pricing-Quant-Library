@@ -314,10 +314,7 @@ The surface is simply being viewed from two different perspectives.
 
 Suppose Dupire calibration produces:
 
-$$
-\sigma_{loc}(5, 4 \%) =
-25\%
-$$
+$\sigma_{loc}(5, 4 \%) = 25\% $
 
 This means:
 
