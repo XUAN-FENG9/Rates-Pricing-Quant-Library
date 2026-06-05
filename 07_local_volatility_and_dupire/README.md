@@ -315,7 +315,7 @@ The surface is simply being viewed from two different perspectives.
 Suppose Dupire calibration produces:
 
 $$
-\sigma_{loc}(5, 4\ \%) = 25\ \% 
+\sigma_{loc}(5, 4\text{%}) = 25\text{%}
 $$
 
 This means:
@@ -329,23 +329,23 @@ was associated with a local volatility of 25\%.
 
 Later, during a Monte Carlo simulation, one path reaches:
 
-$
+$$
 t=5
-$
+$$
 
 and
 
-$
-F_t=4\%
-$
+$$
+F_t=4\text{%}
+$$
 
 At that moment the simulation will query:
 
-$
-\sigma_{loc}(5,4\%)
-$
+$$
+\sigma_{loc}(5,4\text{%})
+$$
 
-and obtain: 25\%
+and obtain: $25\text{%}$
 
 
 The exact same surface value that was previously calibrated from market option prices.
