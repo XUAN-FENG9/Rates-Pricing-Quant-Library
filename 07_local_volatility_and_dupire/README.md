@@ -314,7 +314,9 @@ The surface is simply being viewed from two different perspectives.
 
 Suppose Dupire calibration produces:
 
-$\sigma_{loc}(5, 4 \%) = 25\% $
+$$
+\sigma_{loc}(5, 4\ \%) = 25\ \% 
+$$
 
 This means:
 
@@ -343,11 +345,8 @@ $
 \sigma_{loc}(5,4\%)
 $
 
-and obtain:
+and obtain: 25\%
 
-$
-25\%
-$
 
 The exact same surface value that was previously calibrated from market option prices.
 
