@@ -39,9 +39,7 @@ By completing this chapter, readers should understand:
 - how interpolation is used for non-standard expiries and strikes
 - why numerical stability is a major challenge in local volatility modelling
 
----
-
-# Project Structure
+## Project Structure
 
 ```text
 07_local_volatility_and_dupire/
