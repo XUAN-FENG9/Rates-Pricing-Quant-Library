@@ -1,5 +1,7 @@
 # Chapter 07 — Local Volatility and Dupire
 
+# 7.1 Introduction
+
 ## Overview
 
 This chapter introduces the construction of a local volatility surface for interest rate derivatives using Dupire's formula.
@@ -26,9 +28,7 @@ The implementation reuses the pricing infrastructure developed in previous chapt
 
 The objective is to demonstrate how market option prices can be transformed into a state-dependent volatility model suitable for advanced pricing frameworks.
 
----
-
-# Learning Objectives
+## Learning Objectives
 
 By completing this chapter, readers should understand:
 
@@ -81,7 +81,7 @@ By completing this chapter, readers should understand:
 
 ---
 
-# Implied Volatility Surface
+# 7.2 Implied Volatility Surface
 
 The market provides swaption quotes as Black implied volatilities.
 
@@ -102,7 +102,7 @@ Instead, they are market observations extracted from traded swaption prices.
 
 ---
 
-# Building the Option Price Surface
+# 7.3 Building the Option Price Surface
 
 Dupire's formula requires option prices rather than implied volatilities.
 
@@ -135,13 +135,12 @@ For each grid point:
 
 ---
 
-# Dupire Local Volatility
+# 7.4 Dupire Local Volatility
 
 Dupire's formula converts the option price surface into a local volatility surface:
 
 $$
-\sigma_{loc}^{2}(T,K)
-=
+\sigma_{loc}^{2}(T,K) =
 \frac{
 \frac{\partial C}{\partial T}
 }{
@@ -165,7 +164,7 @@ Unlike implied volatility, local volatility is a model quantity rather than a ma
 
 ---
 
-# From Calibration to Simulation
+# 7.5 From Calibration to Simulation
 
 One of the most important concepts in local volatility modelling is understanding how a volatility surface calibrated in quote space becomes a volatility function used during simulation.
 
@@ -186,8 +185,7 @@ $$
 However, during simulation the model evolves according to:
 
 $$
-dF_t
-=
+dF_t =
 \sigma_{loc}(t,F_t)
 F_t
 dW_t
@@ -216,7 +214,7 @@ This observation explains why local volatility models can reproduce the market v
 
 ---
 
-# From Market Quotes to Stochastic Dynamics
+# 7.6 From Market Quotes to Stochastic Dynamics
 
 One of the most important conceptual steps in local volatility modelling is understanding how a surface defined in market quote space becomes a volatility function used inside a stochastic process.
 
@@ -261,15 +259,12 @@ $$
 
 At this stage, the surface still lives entirely in quote space.
 
----
-
 ## Step 2: Local Volatility Model
 
 The local volatility model assumes that the forward swap rate evolves according to:
 
 $$
-dF_t
-=
+dF_t =
 \sigma_{loc}(t,F_t)
 \,F_t\,dW_t
 $$
@@ -280,8 +275,6 @@ Instead, volatility depends on:
 
 - current simulation time \(t\)
 - current forward swap rate level \(F_t\)
-
----
 
 ## Step 3: Connecting the Two Views
 
@@ -319,15 +312,12 @@ Monte Carlo Simulation
 
 The surface is simply being viewed from two different perspectives.
 
----
-
 ## Example
 
 Suppose Dupire calibration produces:
 
 $$
-\sigma_{loc}(5,\;4\%)
-=
+\sigma_{loc}(5,\;4\%) =
 25\%
 $$
 
@@ -366,8 +356,6 @@ $$
 
 The exact same surface value that was previously calibrated from market option prices.
 
----
-
 ## Why This Matters
 
 This observation explains why Dupire local volatility perfectly reproduces the market vanilla option surface.
@@ -385,7 +373,7 @@ Understanding this connection is one of the key conceptual steps in moving from 
 
 ---
 
-# Off-Grid Interpolation
+# 7.7 Off-Grid Interpolation
 
 Market quotes only exist at a finite set of expiries and strikes.
 
@@ -420,7 +408,7 @@ The C++ implementation uses bilinear interpolation.
 
 ---
 
-# Numerical Stability
+# 7.8 Numerical Stability
 
 Local volatility surfaces are significantly more sensitive than implied volatility surfaces.
 
@@ -450,7 +438,7 @@ This is one reason why SABR models are frequently preferred in interest rate mar
 
 ---
 
-# Cross-Language Validation
+# 7.9 Cross-Language Validation
 
 The Python implementation uses:
 
@@ -480,7 +468,7 @@ This confirms that the observed discrepancies originate from interpolation metho
 
 ---
 
-# Test Cases
+# 7.10 Test Cases
 
 ## End-to-End Dupire Workflow
 
@@ -520,7 +508,8 @@ The resulting price is intended as a workflow validation rather than a productio
 
 ---
 
-# Front Office Quant Notes
+# 7.11 Summary
+## Quant Notes
 
 This chapter introduces a core idea used throughout quantitative derivatives modelling:
 
@@ -536,11 +525,9 @@ Understanding this connection is essential for:
 
 The next chapter extends these ideas using the SABR model, which provides a more realistic description of interest rate volatility smiles and skews.
 
----
+## Next Chapter
 
-# Next Chapter
-
-## Chapter 08 — SABR Volatility Surface Calibration
+### Chapter 08 — SABR Volatility Surface Calibration
 
 Topics include:
 
