@@ -233,9 +233,9 @@ For example:
 
 | Expiry | Strike | Market Black Vol |
 |----------|----------|----------|
-| 1Y | 4.0% | 22bp |
-| 5Y | 4.0% | 30bp |
-| 10Y | 4.0% | 37bp |
+| 1Y | 4.0% | 1100bp |
+| 5Y | 4.0% | 1500bp |
+| 10Y | 4.0% | 1850bp |
 
 These market observations define the implied volatility surface:
 
@@ -271,8 +271,8 @@ Unlike Black's model, volatility is no longer constant.
 
 Instead, volatility depends on:
 
-- current simulation time \(t\)
-- current forward swap rate level \(F_t\)
+- current simulation time $t$
+- current forward swap rate level $F_t$
 
 ## Step 3: Connecting the Two Views
 
@@ -315,7 +315,7 @@ The surface is simply being viewed from two different perspectives.
 Suppose Dupire calibration produces:
 
 $$
-\sigma_{loc}(5,\;4\%) =
+\sigma_{loc}(5,4\%) =
 25\%
 $$
 
@@ -343,7 +343,7 @@ $$
 At that moment the simulation will query:
 
 $$
-\sigma_{loc}(5,\;4\%)
+\sigma_{loc}(5,4\%)
 $$
 
 and obtain:
@@ -362,8 +362,8 @@ The model is calibrated so that every point on the local volatility surface is c
 
 As a result:
 
-- calibration is performed in quote space \((T,K)\)
-- simulation is performed in state space \((t,F_t)\)
+- calibration is performed in quote space $(T,K)$
+- simulation is performed in state space $(t,F_t)$
 
 but both use the same local volatility function.
 
