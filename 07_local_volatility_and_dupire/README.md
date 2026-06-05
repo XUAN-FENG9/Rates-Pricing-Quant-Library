@@ -18,7 +18,7 @@ Starting from market swaption volatility quotes, we build:
 
 Market Swaption Quotes
 
-&#x20;       ↓
+\&#x20;       ↓
 
 Implied Volatility Surface
 
