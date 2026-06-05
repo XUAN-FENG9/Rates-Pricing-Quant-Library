@@ -315,7 +315,7 @@ The surface is simply being viewed from two different perspectives.
 Suppose Dupire calibration produces:
 
 $$
-\sigma_{loc}(5, 4\text{%}) = 25\text{%}
+\sigma_{loc}(5, 0.04) = 0.25
 $$
 
 This means:
@@ -336,16 +336,16 @@ $$
 and
 
 $$
-F_t=4\text{%}
+F_t=0.04
 $$
 
 At that moment the simulation will query:
 
 $$
-\sigma_{loc}(5,4\text{%})
+\sigma_{loc}(5,0.04)
 $$
 
-and obtain: $25\text{%}$
+and obtain: $0.25$
 
 
 The exact same surface value that was previously calibrated from market option prices.
