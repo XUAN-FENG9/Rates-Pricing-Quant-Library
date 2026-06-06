@@ -1,6 +1,9 @@
+import numpy as np
+
+
 class InterestRateSwap:
     """
-    Vanilla fixed-for-floating interest rate swap.
+    Vanilla fixed-for-floating swap.
     """
 
     def __init__(
@@ -19,7 +22,7 @@ class InterestRateSwap:
         self.maturity = maturity
 
         self.payment_frequency = payment_frequency
-
+        
         self.payer = payer
 
         self.payment_dates = []
@@ -35,7 +38,7 @@ class InterestRateSwap:
             )
 
             t += step
-
+            
     def fixed_leg_pv(self, curve):
 
         pv = 0.0
@@ -101,4 +104,40 @@ class InterestRateSwap:
 
         else:
 
-            return fixed_pv - float_pv
+            return fixed_pv - float_pv    
+
+    def annuity(self, curve):
+        """
+        Swap annuity.
+
+        Sum of discounted accrual factors.
+        """
+
+        annuity = 0.0
+
+        previous = 0.0
+
+        for t in self.payment_dates:
+
+            accrual = t - previous
+
+            df = curve.discount_factor(t)
+
+            annuity += accrual * df
+
+            previous = t
+
+        return annuity
+
+    def par_swap_rate(self, curve):
+        """
+        Compute par swap rate.
+        """
+
+        df_T = curve.discount_factor(
+            self.maturity
+        )
+
+        annuity = self.annuity(curve)
+
+        return (1 - df_T) / annuity
