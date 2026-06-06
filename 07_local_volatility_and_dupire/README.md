@@ -45,6 +45,9 @@ By completing this chapter, readers should understand:
 07_local_volatility_and_dupire/
 │
 ├── python/
+│   ├── curve.py (from previous chapter)
+│   ├── forward_swap.py (from previous chapter)
+│   ├── black_swaption.py (from previous chapter)
 │   ├── market_data.py
 │   ├── vol_surface.py
 │   ├── swaption_price_surface.py
