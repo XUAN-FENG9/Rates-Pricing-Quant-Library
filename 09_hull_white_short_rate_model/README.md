@@ -30,8 +30,7 @@ The one-factor Hull-White model assumes:
 $$
 dr_t=
 \left(
-\theta(t)
-- a r_t
+\theta(t) - a r_t
 \right)dt
 +
 \sigma dW_t
