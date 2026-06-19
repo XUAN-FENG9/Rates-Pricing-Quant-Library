@@ -31,7 +31,7 @@ $$
 dr_t=
 \left(
 \theta(t)
-a r_t
+- a r_t
 \right)dt
 +
 \sigma dW_t
