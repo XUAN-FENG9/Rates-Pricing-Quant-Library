@@ -196,10 +196,10 @@ for all maturities.
 
 The Hull-White model belongs to the affine term-structure family.
 
-Bond prices have the form:
+Zero-coupon bond prices have the form:
 
 $$
-P(t,T)=
+P(t,T) =
 A(t,T)
 \exp
 \left(
@@ -209,10 +209,47 @@ $$
 
 where:
 
-* $A(t,T)$ depends on the initial yield curve
-* $B(t,T)$ captures short-rate sensitivity
+$$
+B(t,T) =
+\frac{
+1-e^{-a(T-t)}
+}{a}
+$$
 
-This representation enables efficient pricing of many fixed-income derivatives.
+and:
+
+$$
+A(t,T) =
+\frac{P(0,T)}{P(0,t)}
+\exp
+\left(
+B(t,T)f(0,t) -
+\frac{\sigma^2}{4a}
+\left(
+1-e^{-2at}
+\right)
+B(t,T)^2
+\right)
+$$
+
+Here:
+
+- $P(0,T)$ is the initial market discount factor to maturity \(T\)
+- $P(0,t)$ is the initial market discount factor to time \(t\)
+- $f(0,t)$ is the instantaneous forward rate at time \(t\)
+- $B(t,T)$ measures bond sensitivity to the short rate
+- $A(t,T)$ adjusts the bond price so that the model fits the initial yield curve
+
+Therefore:
+
+$$
+P_{HW}(0,T)=
+P_{Market}(0,T)
+$$
+
+at time zero.
+
+This curve-fitting property is one of the key reasons Hull-White is widely used in rates modelling.
 
 ---
 
@@ -222,7 +259,7 @@ The short rate evolves according to:
 
 $$
 r_{t+\Delta t}=
-r_t +\left(\theta(t) a r_t\right)\Delta t
+r_t +\left(\theta(t) - a r_t\right)\Delta t
 +
 \sigma
 \sqrt{\Delta t}
