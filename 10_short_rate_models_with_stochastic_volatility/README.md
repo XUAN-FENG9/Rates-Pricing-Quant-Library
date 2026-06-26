@@ -132,13 +132,13 @@ $$
 
 | Parameter | Interpretation |
 |------------|----------------|
-| \(a\) | Short-rate mean reversion |
-| \(\theta(t)\) | Drift fitted to today's yield curve |
-| \(v_t\) | Instantaneous variance |
-| \(\kappa\) | Variance mean-reversion speed |
-| \(v_\infty\) | Long-run variance |
-| \(\eta\) | Volatility of variance (vol-of-vol) |
-| \(\rho\) | Correlation between rate and variance shocks |
+| $a$ | Short-rate mean reversion |
+| $\theta(t)$ | Drift fitted to today's yield curve |
+| $v_t$ | Instantaneous variance |
+| $\kappa$ | Variance mean-reversion speed |
+| $v_\infty$ | Long-run variance |
+| $\eta$ | Volatility of variance (vol-of-vol) |
+| $\rho$ | Correlation between rate and variance shocks |
 
 ---
 
