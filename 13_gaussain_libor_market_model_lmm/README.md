@@ -1,3 +1,6 @@
+✝ In memory of my beloved grandfather - Heshun Feng (冯和顺), who passed away today (11th July 2026). His love and encouragement will forever inspire me.
+---
+
 # Chapter 13 — Gaussian LIBOR Market Model
 
 ## Forward-Curve Dynamics, Correlation, Monte Carlo Simulation, and Interest-Rate Option Pricing
@@ -2125,3 +2128,5 @@ can be combined in a richer multi-factor framework.
 This repository is provided for educational and research purposes only.
 
 It is not intended to provide investment advice, trading recommendations, valuation opinions, or production-ready risk-management infrastructure.
+
+
