@@ -1374,7 +1374,7 @@ At the end, the selected cash flow is discounted to time zero:
 
 $$
 V_0 =
-D(0,\tau^{*})CF^{*}.
+D(0,\tau^{\*})CF^{\*}.
 $$
 
 Using:
