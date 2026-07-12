@@ -39,7 +39,7 @@ Backward induction
         +
 Regression
         ↓
-Approximate optimal exercise strategy
+Approximate optimal exercise strategy 
 ```
 
 ---
