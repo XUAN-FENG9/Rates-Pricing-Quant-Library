@@ -1,4 +1,4 @@
-✝ In memory of my beloved grandfather - Heshun Feng (冯和顺), who passed away today (11th July 2026). His love and encouragement will forever inspire me.
+✝ In memory of my beloved grandfather - Heshun Feng (冯和顺, 1942-2026), who passed away today (11th July 2026). His love and encouragement will forever inspire me.
 
 ---
 
