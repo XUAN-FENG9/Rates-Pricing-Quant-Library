@@ -50,6 +50,7 @@ After completing this chapter, the reader should understand:
 │   └── 13_gaussian_lmm.ipynb
 │
 ├── python/
+│   ├── curve.py (from previous chapter)
 │   ├── market_data.py
 │   ├── tenor_structure.py
 │   ├── correlation.py
@@ -66,7 +67,6 @@ After completing this chapter, the reader should understand:
 │   └── test_lmm_pricing.py
 │
 └── cpp/
-    ├── Matrix.hpp
     ├── ZeroCurve.hpp
     ├── ZeroCurve.cpp
     ├── TenorStructure.hpp
@@ -120,8 +120,7 @@ $$
 The state vector is therefore:
 
 $$
-\mathbf{L}(t)
-=
+\mathbf{L}(t)=
 \left(
 L_0(t),
 L_1(t),
@@ -206,33 +205,26 @@ denote the time-\(t\) price of a zero-coupon bond paying one unit at maturity \(
 The simple-compounded forward rate for interval \([T_i,T_{i+1}]\) is defined by:
 
 $$
-1+\delta_iL_i(t)
-=
+1+\delta_iL_i(t)=
 \frac{P(t,T_i)}{P(t,T_{i+1})}.
 $$
 
 Therefore:
 
 $$
-L_i(t)
-=
+L_i(t)=
 \frac{1}{\delta_i}
-\left[
-\frac{P(t,T_i)}{P(t,T_{i+1})}
--
-1
+\left[\frac{P(t,T_i)}{P(t,T_{i+1})}-1
 \right].
 $$
 
 At time zero:
 
 $$
-L_i(0)
-=
+L_i(0)=
 \frac{1}{\delta_i}
 \left[
-\frac{P(0,T_i)}{P(0,T_{i+1})}
--
+\frac{P(0,T_i)}{P(0,T_{i+1})}-
 1
 \right].
 $$
@@ -251,7 +243,7 @@ Initial forward rates
 
 ---
 
-## 6. Interpretation of \(L_i(t)\)
+## 6. Interpretation of $L_i(t)$
 
 The notation \(L_i(t)\) contains two different time concepts.
 
@@ -360,8 +352,7 @@ The code stores all positions, but only the relevant future segment is used for 
 A classical lognormal LMM is often written as:
 
 $$
-dL_i(t)
-=
+dL_i(t) =
 \mu_i(t)L_i(t)\,dt
 +
 L_i(t)\lambda_i(t)\cdot dW_t.
@@ -372,8 +363,7 @@ The diffusion term is proportional to the forward-rate level.
 This chapter instead uses an additive Gaussian LMM:
 
 $$
-dL_i(t)
-=
+dL_i(t) =
 \mu_i(t)\,dt
 +
 \lambda_i(t)\cdot dW_t.
@@ -398,8 +388,7 @@ The main limitation is that the Gaussian model does not enforce positive rates.
 For each forward \(L_i\), the deterministic normal volatility is modeled as:
 
 $$
-\sigma_i(t)
-=
+\sigma_i(t) =
 \sigma_{\text{level}}
 \exp
 \left[
@@ -426,8 +415,7 @@ This reflects the fact that once the forward rate has fixed, it should no longer
 A volatility floor may also be imposed:
 
 $$
-\sigma_i(t)
-=
+\sigma_i(t) =
 \max
 \left[
 \sigma_{\text{level}}
@@ -473,8 +461,7 @@ Nearby maturities often move together because they are influenced by common econ
 The chapter uses exponential correlation:
 
 $$
-\rho_{ij}
-=
+\rho_{ij} =
 \exp
 \left[
 -\beta|T_i-T_j|
@@ -492,7 +479,7 @@ Nearby forwards: highly correlated
 Distant forwards: still substantially correlated
 ```
 
-### Large \(\beta\)
+### Large $\beta$
 
 A large value produces faster correlation decay.
 
@@ -594,11 +581,7 @@ $$
 has covariance:
 
 $$
-\operatorname{Cov}(\varepsilon)
-=
-CC^\top
-=
-\rho.
+\operatorname{Cov}(\varepsilon) = CC^\top = \rho.
 $$
 
 A Cholesky decomposition can therefore be used to generate correlated shocks.
@@ -620,16 +603,14 @@ However, yield-curve movements are usually dominated by a small number of common
 The correlation matrix is decomposed as:
 
 $$
-\rho
-=
+\rho =
 Q\Lambda Q^\top.
 $$
 
 Keeping the largest \(m\) eigenvalues gives:
 
 $$
-B
-=
+B =
 Q_m\Lambda_m^{1/2}.
 $$
 
@@ -668,16 +649,14 @@ denote the PCA loading vector for forward \(i\).
 The final factor-loading vector is:
 
 $$
-\lambda_i(t)
-=
+\lambda_i(t) =
 \sigma_i(t)b_i.
 $$
 
 For a three-factor model:
 
 $$
-\lambda_i(t)
-=
+\lambda_i(t) =
 \left(
 \lambda_{i1}(t),
 \lambda_{i2}(t),
@@ -692,16 +671,14 @@ $$
 \left(
 dL_i(t),
 dL_j(t)
-\right)
-=
+\right) =
 \lambda_i(t)\cdot\lambda_j(t)\,dt.
 $$
 
 The instantaneous covariance matrix is:
 
 $$
-\Sigma(t)
-=
+\Sigma(t) =
 \Lambda(t)\Lambda(t)^\top.
 $$
 
@@ -730,8 +707,7 @@ Under the terminal measure \(Q^{T_N}\), all forward rates can be simulated toget
 Under the terminal measure:
 
 $$
-dL_i(t)
-=
+dL_i(t) =
 \mu_i^{T_N}(t)\,dt
 +
 \lambda_i(t)\cdot dW_t^{T_N}.
@@ -740,8 +716,7 @@ $$
 For the additive Gaussian LMM, the terminal-measure drift is:
 
 $$
-\mu_i^{T_N}(t)
-=
+\mu_i^{T_N}(t) =
 -
 \sum_{j=i+1}^{N-1}
 \frac{
@@ -805,8 +780,7 @@ This fixed-size representation simplifies:
 The continuous-time dynamics are approximated using Euler discretization:
 
 $$
-L_i(t+\Delta t)
-=
+L_i(t+\Delta t) =
 L_i(t)
 +
 \mu_i(t)\Delta t
@@ -823,8 +797,7 @@ $$
 In vector form:
 
 $$
-\mathbf{L}_{t+\Delta t}
-=
+\mathbf{L}_{t+\Delta t} =
 \mathbf{L}_t
 +
 \boldsymbol{\mu}_t\Delta t
@@ -1038,8 +1011,7 @@ $$
 The forward relation gives:
 
 $$
-P(T_k,T_{j+1})
-=
+P(T_k,T_{j+1}) =
 \frac{
 P(T_k,T_j)
 }{
@@ -1050,8 +1022,7 @@ $$
 Therefore:
 
 $$
-P(T_k,T_j)
-=
+P(T_k,T_j) =
 \prod_{m=k}^{j-1}
 \frac{1}{
 1+\delta_mL_m(T_k)
@@ -1077,8 +1048,7 @@ Consider a swap beginning at \(T_k\) and ending at \(T_m\).
 The fixed-leg annuity is:
 
 $$
-A(T_k)
-=
+A(T_k) =
 \sum_{j=k}^{m-1}
 \delta_jP(T_k,T_{j+1}).
 $$
@@ -1098,8 +1068,7 @@ $$
 The par swap rate is therefore:
 
 $$
-S(T_k)
-=
+S(T_k) =
 \frac{
 1-P(T_k,T_m)
 }{
@@ -1116,8 +1085,7 @@ This is the fixed rate that makes the swap value equal to zero at \(T_k\).
 The general numeraire pricing identity is:
 
 $$
-V(0)
-=
+V(0) =
 N(0)
 \mathbb{E}^{N}
 \left[
@@ -1134,8 +1102,7 @@ $$
 the pricing formula becomes:
 
 $$
-V(0)
-=
+V(0) =
 P(0,T_N)
 \mathbb{E}^{T_N}
 \left[
@@ -1190,8 +1157,7 @@ where:
 Because the payment occurs at \(T_{i+1}\), its value at the reset date \(T_i\) is:
 
 $$
-V(T_i)
-=
+V(T_i) =
 \frac{
 N\delta_i
 \max(L_i(T_i)-K,0)
@@ -1203,8 +1169,7 @@ $$
 The time-zero value is:
 
 $$
-V(0)
-=
+V(0) =
 P(0,T_N)
 \mathbb{E}^{T_N}
 \left[
@@ -1973,9 +1938,9 @@ $$
 \beta.
 $$
 
-Smaller \(\beta\) means stronger long-range correlation.
+Smaller $\beta$ means stronger long-range correlation.
 
-Larger \(\beta\) means faster correlation decay.
+Larger $\beta$ means faster correlation decay.
 
 The pricing impact depends on:
 
@@ -2043,7 +2008,7 @@ $$
 
 ### One simulation time contains a complete forward curve
 
-At time \(t\), each path stores:
+At time $t$, each path stores:
 
 $$
 \left[
@@ -2080,8 +2045,7 @@ a complete segment of the future forward curve
 The relationship:
 
 $$
-1+\delta_iL_i(t)
-=
+1+\delta_iL_i(t) =
 \frac{P(t,T_i)}{P(t,T_{i+1})}
 $$
 
@@ -2089,11 +2053,10 @@ connects the simulated forward state to bond prices.
 
 ### Terminal-numeraire pricing is essential
 
-Under \(Q^{T_N}\):
+Under $Q^{T_N}$:
 
 $$
-V(0)
-=
+V(0) =
 P(0,T_N)
 \mathbb{E}^{T_N}
 \left[
