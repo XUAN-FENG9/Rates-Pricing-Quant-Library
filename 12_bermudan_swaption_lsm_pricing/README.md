@@ -273,8 +273,7 @@ $$
 The exercise rule becomes:
 
 $$
-E_m^{(n)}
->
+E_m^{(n)} >
 \widehat{C}_m
 \left(
 X_m^{(n)}
@@ -880,7 +879,7 @@ $$
 
 Otherwise retain the future cash flow from $t_3$.
 
-### Date \(t_1\)
+### Date $t_1$
 
 Discount the currently selected future optimal cash flow back to $t_1$.
 
