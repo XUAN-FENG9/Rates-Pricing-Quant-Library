@@ -337,11 +337,11 @@ L5: 2.5Y to 3.0Y
 ...
 ```
 
-At \(t=2\):
+At $t=2$:
 
-- \(L_0\) to \(L_3\) belong to past periods;
-- \(L_4\) is fixing at time 2;
-- \(L_5,L_6,\ldots\) remain future forward rates.
+- $L_0$ to $L_3$ belong to past periods;
+- $L_4$ is fixing at time 2;
+- $L_5,L_6,\ldots$ remain future forward rates.
 
 The code stores all positions, but only the relevant future segment is used for pricing.
 
@@ -399,9 +399,9 @@ $$
 
 Here:
 
-- \(\sigma_{\text{level}}\) controls the overall volatility level;
-- \(d\) controls maturity decay;
-- \(T_i-t\) is the remaining time to reset.
+- $\sigma_{\text{level}}$ controls the overall volatility level;
+- $d$ controls maturity decay;
+- $T_i-t$ is the remaining time to reset.
 
 After the reset date:
 
@@ -581,7 +581,7 @@ $$
 has covariance:
 
 $$
-\operatorname{Cov}(\varepsilon) = CC^\top = \rho.
+\operatorname{Cov}(\varepsilon) = CC^ \top = \rho.
 $$
 
 A Cholesky decomposition can therefore be used to generate correlated shocks.
