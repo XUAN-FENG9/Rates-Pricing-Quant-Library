@@ -261,7 +261,7 @@ means that the simulated economy has advanced to year 2.
 
 ### Forward interval
 
-The index \(i\) identifies the future interval:
+The index $i$ identifies the future interval:
 
 $$
 [T_i,T_{i+1}].
@@ -293,7 +293,7 @@ $$
 
 Therefore:
 
-> \(t\) tells us when the forward curve is observed, while \(i\) tells us which future borrowing interval is being measured.
+> $t$ tells us when the forward curve is observed, while \(i\) tells us which future borrowing interval is being measured.
 
 ---
 
@@ -310,7 +310,7 @@ L_{N-1}(0)
 \right].
 $$
 
-At a future time such as \(t=2\), one Monte Carlo path contains:
+At a future time such as $t=2$, one Monte Carlo path contains:
 
 $$
 \left[
@@ -385,7 +385,7 @@ The main limitation is that the Gaussian model does not enforce positive rates.
 
 ## 9. Volatility Structure
 
-For each forward \(L_i\), the deterministic normal volatility is modeled as:
+For each forward $L_i$, the deterministic normal volatility is modeled as:
 
 $$
 \sigma_i(t) =
@@ -468,9 +468,9 @@ $$
 \right].
 $$
 
-The parameter \(\beta\) controls how rapidly correlation declines with maturity distance.
+The parameter $\beta$ controls how rapidly correlation declines with maturity distance.
 
-### Small \(\beta\)
+### Small $\beta$
 
 A small value produces persistent correlation across the curve.
 
@@ -644,7 +644,7 @@ $$
 b_i
 $$
 
-denote the PCA loading vector for forward \(i\).
+denote the PCA loading vector for forward $i$.
 
 The final factor-loading vector is:
 
@@ -664,7 +664,7 @@ $$
 \right).
 $$
 
-The instantaneous covariance between forward rates \(i\) and \(j\) is:
+The instantaneous covariance between forward rates $i$ and $j$ is:
 
 $$
 \text{Cov}{Cov}
@@ -690,7 +690,7 @@ A forward rate is naturally driftless under its own forward measure.
 
 However, a joint simulation cannot conveniently simulate every forward under a different measure.
 
-The chapter uses one common measure for all forward rates: the terminal measure associated with the final tenor date \(T_N\).
+The chapter uses one common measure for all forward rates: the terminal measure associated with the final tenor date $T_N$.
 
 The numeraire is:
 
@@ -698,7 +698,7 @@ $$
 N(t)=P(t,T_N).
 $$
 
-Under the terminal measure \(Q^{T_N}\), all forward rates can be simulated together, but their drift terms must be adjusted.
+Under the terminal measure $Q^{T_N}$, all forward rates can be simulated together, but their drift terms must be adjusted.
 
 ---
 
@@ -915,7 +915,7 @@ $$
 
 ---
 
-## 22. Meaning of “Take the Forward Curve at \(t=2\)”
+## 22. Meaning of “Take the Forward Curve at $t=2$”
 
 Suppose the simulation time step is:
 
