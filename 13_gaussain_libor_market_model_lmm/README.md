@@ -581,7 +581,7 @@ $$
 has covariance:
 
 $$
-\operatorname{Cov}(\varepsilon) = CC^ \top = \rho.
+\text{Cov}{Cov}(\varepsilon) = CC^ \top = \rho.
 $$
 
 A Cholesky decomposition can therefore be used to generate correlated shocks.
@@ -667,7 +667,7 @@ $$
 The instantaneous covariance between forward rates \(i\) and \(j\) is:
 
 $$
-\operatorname{Cov}
+\text{Cov}{Cov}
 \left(
 dL_i(t),
 dL_j(t)
@@ -716,8 +716,7 @@ $$
 For the additive Gaussian LMM, the terminal-measure drift is:
 
 $$
-\mu_i^{T_N}(t) =
--
+\mu_i^{T_N}(t) = -
 \sum_{j=i+1}^{N-1}
 \frac{
 \delta_j
@@ -747,7 +746,7 @@ This is an important diagnostic check.
 
 ## 18. Active and Fixed Forward Rates
 
-Forward \(L_i\) remains stochastic only before its reset date.
+Forward $L_i$ remains stochastic only before its reset date.
 
 The active condition is:
 
