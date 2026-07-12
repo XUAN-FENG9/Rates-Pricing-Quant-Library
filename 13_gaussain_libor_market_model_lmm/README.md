@@ -394,7 +394,7 @@ $$
 \left[
 -d(T_i-t)
 \right],
-\qquad t<T_i.
+\qquad t < T_i.
 $$
 
 Here:
@@ -581,7 +581,7 @@ $$
 has covariance:
 
 $$
-\text{Cov}{Cov}(\varepsilon) = CC^ \top = \rho.
+\text{Cov}(\varepsilon) = CC^ \top = \rho.
 $$
 
 A Cholesky decomposition can therefore be used to generate correlated shocks.
@@ -667,7 +667,7 @@ $$
 The instantaneous covariance between forward rates $i$ and $j$ is:
 
 $$
-\text{Cov}{Cov}
+\text{Cov}
 \left(
 dL_i(t),
 dL_j(t)
@@ -960,7 +960,7 @@ A swaption uses several components.
 
 ## 23. Antithetic Variates
 
-To reduce Monte Carlo noise, the simulation may pair each shock \(Z\) with \(-Z\).
+To reduce Monte Carlo noise, the simulation may pair each shock $Z$ with $-Z$.
 
 For example:
 
@@ -1001,7 +1001,7 @@ antithetic         = true
 
 ## 24. Reconstructing Discount Bonds
 
-At a tenor date \(T_k\):
+At a tenor date $T_k$:
 
 $$
 P(T_k,T_k)=1.
@@ -1042,7 +1042,7 @@ must hold to ensure valid positive bond prices.
 
 ## 25. Swap Annuity
 
-Consider a swap beginning at \(T_k\) and ending at \(T_m\).
+Consider a swap beginning at $T_k$ and ending at $T_m$.
 
 The fixed-leg annuity is:
 
@@ -1075,7 +1075,7 @@ A(T_k)
 }.
 $$
 
-This is the fixed rate that makes the swap value equal to zero at \(T_k\).
+This is the fixed rate that makes the swap value equal to zero at $T_k$.
 
 ---
 
@@ -1134,7 +1134,7 @@ This explains why the pricing code divides each path payoff by the terminal bond
 
 ## 28. Caplet Pricing
 
-A caplet on \(L_i\) fixes at \(T_i\) and pays at \(T_{i+1}\).
+A caplet on $L_i$ fixes at $T_i$ and pays at $T_{i+1}$.
 
 The payment is:
 
@@ -1149,11 +1149,11 @@ $$
 
 where:
 
-- \(N\) is the notional;
-- \(K\) is the strike;
-- \(\delta_i\) is the accrual period.
+- $N$ is the notional;
+- $K$ is the strike;
+- $\delta_i$ is the accrual period.
 
-Because the payment occurs at \(T_{i+1}\), its value at the reset date \(T_i\) is:
+Because the payment occurs at $T_{i+1}$, its value at the reset date $T_i$ is:
 
 $$
 V(T_i) =
@@ -1193,7 +1193,7 @@ pay fixed
 receive floating
 ```
 
-Suppose the option expires at \(T_k\), and the underlying swap ends at \(T_m\).
+Suppose the option expires at $T_k$, and the underlying swap ends at $T_m$.
 
 The expiry payoff is:
 
@@ -1215,7 +1215,7 @@ For each simulated path:
 5. calculate the payer payoff;
 6. divide by the terminal bond;
 7. average across paths;
-8. multiply by \(P(0,T_N)\).
+8. multiply by $P(0,T_N)$.
 
 The Monte Carlo price is:
 
@@ -1279,21 +1279,18 @@ Main responsibilities:
 - construct the initial yield curve;
 - export selected curve points for inspection.
 
----
-
 ### `tenor_structure.py`
 
 Creates the tenor grid and accrual periods.
 
 Main responsibilities:
 
-- build \(T_0,\ldots,T_N\);
-- calculate \(\delta_i\);
+- build $T_0,\ldots,T_N$;
+- calculate $\delta_i$;
 - construct initial forward rates;
 - construct initial discount factors;
 - map calendar times to tenor indices.
 
----
 
 ### `correlation.py`
 
@@ -1306,7 +1303,6 @@ Main responsibilities:
 - stable Cholesky decomposition;
 - PCA factor reduction.
 
----
 
 ### `volatility.py`
 
@@ -1314,11 +1310,10 @@ Defines deterministic Gaussian forward volatility.
 
 Main responsibilities:
 
-- calculate \(\sigma_i(t)\);
+- calculate $\sigma_i(t)$;
 - turn volatility off after reset;
 - combine volatility with correlation loadings.
 
----
 
 ### `gaussian_lmm.py`
 
@@ -1334,7 +1329,6 @@ Main responsibilities:
 - discount-factor reconstruction;
 - terminal-bond calculation.
 
----
 
 ### `simulation.py`
 
@@ -1348,7 +1342,6 @@ Main responsibilities:
 - repeatedly call the model evolution function;
 - store the three-dimensional path array.
 
----
 
 ### `pricing.py`
 
@@ -1361,8 +1354,6 @@ Main responsibilities:
 - price caplets;
 - price European payer swaptions;
 - apply terminal-numeraire pricing.
-
----
 
 ### `plotting.py`
 
@@ -1377,7 +1368,6 @@ Typical plots:
 - mean forward surface;
 - strike and volatility sensitivity.
 
----
 
 ### `diagnostics.py`
 
@@ -1406,7 +1396,6 @@ using Matrix =
     >;
 ```
 
----
 
 ### `ZeroCurve.hpp` and `ZeroCurve.cpp`
 
@@ -1415,7 +1404,7 @@ Implement:
 - zero-rate interpolation;
 - discount-factor calculation.
 
----
+
 
 ### `TenorStructure.hpp` and `TenorStructure.cpp`
 
@@ -1427,7 +1416,7 @@ Implement:
 - initial discount factors;
 - tenor indexing.
 
----
+
 
 ### `Correlation.hpp` and `Correlation.cpp`
 
@@ -1439,7 +1428,6 @@ Implement:
 - matrix multiplication;
 - matrix transpose.
 
----
 
 ### `GaussianLMMVolatility.hpp` and `GaussianLMMVolatility.cpp`
 
@@ -1450,7 +1438,6 @@ Implement:
 - reset-date deactivation;
 - final factor loadings.
 
----
 
 ### `GaussianLMM.hpp` and `GaussianLMM.cpp`
 
@@ -1465,7 +1452,6 @@ Implement:
 - bond reconstruction;
 - terminal-bond calculation.
 
----
 
 ### `LMMSimulation.hpp` and `LMMSimulation.cpp`
 
@@ -1477,7 +1463,6 @@ Implement:
 - antithetic shocks;
 - path evolution.
 
----
 
 ### `LMMPricing.hpp` and `LMMPricing.cpp`
 
@@ -1489,7 +1474,6 @@ Implement:
 - caplet pricing;
 - payer swaption pricing.
 
----
 
 ### `Diagnostics.hpp` and `Diagnostics.cpp`
 
@@ -1500,7 +1484,6 @@ Implement console output for:
 - simulation summary;
 - pricing results.
 
----
 
 ### `main.cpp`
 
@@ -1530,7 +1513,7 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(
-    r"C:\Users\YourName\Desktop\Rates-Pricing-Quant-Library"
+    r"...\Rates-Pricing-Quant-Library"
 )
 
 CHAPTER13 = (
