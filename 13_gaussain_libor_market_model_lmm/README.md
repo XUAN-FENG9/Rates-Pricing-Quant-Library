@@ -204,9 +204,9 @@ $$
 P(t,T)
 $$
 
-denote the time-\(t\) price of a zero-coupon bond paying one unit at maturity \(T\).
+denote the time-$t$ price of a zero-coupon bond paying one unit at maturity $T$.
 
-The simple-compounded forward rate for interval \([T_i,T_{i+1}]\) is defined by:
+The simple-compounded forward rate for interval $[T_i,T_{i+1}]$ is defined by:
 
 $$
 1+\delta_iL_i(t)=
