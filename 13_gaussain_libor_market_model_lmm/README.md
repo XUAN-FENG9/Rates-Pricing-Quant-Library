@@ -253,7 +253,7 @@ The notation $L_i(t)$ contains two different time concepts.
 
 ### Observation time
 
-The variable \(t\) is the time at which the market is observed.
+The variable $t$ is the time at which the market is observed.
 
 For example:
 
