@@ -1,2176 +1,1048 @@
-\# Chapter 14 — LMM-SABR Hybrid Model
+# Chapter 14 — LMM-SABR Hybrid Model
 
-
-
-\## Stochastic Volatility, Forward-Curve Simulation, and Interest-Rate Option Pricing
-
-
+# 14.1 Stochastic Volatility, Forward-Curve Simulation, and Interest-Rate Option Pricing
 
 This chapter extends the Gaussian LIBOR Market Model developed in Chapter 13 by introducing forward-specific SABR-style stochastic volatility.
 
-
-
 The model retains the core LMM architecture:
 
-
-
-\- an initial zero curve;
-
-\- a discrete tenor structure;
-
-\- forward rates as state variables;
-
-\- cross-maturity correlation;
-
-\- PCA-based rate factors;
-
-\- terminal-measure drift;
-
-\- Monte Carlo simulation;
-
-\- caplet and European swaption pricing.
-
-
+- an initial zero curve;
+- a discrete tenor structure;
+- forward rates as state variables;
+- cross-maturity correlation;
+- PCA-based rate factors;
+- terminal-measure drift;
+- Monte Carlo simulation;
+- caplet and European swaption pricing.
 
 The main extension is that the volatility of each forward rate is no longer fully deterministic. Each forward rate is associated with its own stochastic volatility state.
 
+---
 
-
-\---
-
-
-
-\# 1. Project Structure
-
-
+# 14.2 Project Structure
 
 The recommended directory structure is:
 
-
-
 ```text
-
-14\_lmm\_sabr\_hybrid\_model/
-
+14_lmm_sabr_hybrid_model/
 ├── cpp/
-
 │   ├── Matrix.hpp
-
 │   ├── SABRParameters.hpp
-
 │   ├── SABRParameters.cpp
-
 │   ├── LMMSABRHybrid.hpp
-
 │   ├── LMMSABRHybrid.cpp
-
 │   ├── SABRSimulation.hpp
-
 │   ├── SABRSimulation.cpp
-
 │   ├── LMMSABRPricing.hpp
-
 │   ├── LMMSABRPricing.cpp
-
 │   └── main.cpp
-
 │
-
 ├── notebooks/
-
-│   └── 14\_lmm\_sabr\_hybrid\_model.ipynb
-
+│   └── 14_lmm_sabr_hybrid_model.ipynb
 │
-
 ├── python/
-
-│   ├── sabr\_parameters.py
-
-│   ├── lmm\_sabr\_hybrid.py
-
-│   ├── sabr\_simulation.py
-
-│   ├── lmm\_sabr\_pricing.py
-
-│   ├── sabr\_diagnostics.py
-
-│   └── lmm\_sabr\_plotting.py
-
+│   ├── sabr_parameters.py
+│   ├── lmm_sabr_hybrid.py
+│   ├── sabr_simulation.py
+│   ├── lmm_sabr_pricing.py
+│   ├── sabr_diagnostics.py
+│   └── lmm_sabr_plotting.py
 │
-
 └── tests/
-
-&#x20;   └── test.py
-
+    └── test.py
 ```
-
-
 
 The Python implementation reuses the following Chapter 13 modules:
 
-
-
 ```text
-
-13\_gaussain\_libor\_market\_model\_lmm/
-
+13_gaussain_libor_market_model_lmm/
 └── python/
-
-&#x20;   ├── market\_data.py
-
-&#x20;   ├── tenor\_structure.py
-
-&#x20;   ├── correlation.py
-
-&#x20;   └── volatility.py
-
+    ├── market_data.py
+    ├── tenor_structure.py
+    ├── correlation.py
+    └── volatility.py
 ```
-
-
 
 The Chapter 14 Python modules use distinct names to prevent import conflicts with files from Chapter 13.
 
+---
 
-
-\---
-
-
-
-\# 2. Model Motivation
-
-
+# 14.3 Model Motivation
 
 The Gaussian LMM in Chapter 13 models the evolution of a complete forward-rate curve.
 
-
-
-For the forward rate applying over the period from \\(T\_i\\) to \\(T\_{i+1}\\), the Chapter 13 dynamics can be represented as:
-
-
+For the forward rate applying over the period from $T_i$ to $T_{i+1}$, the Chapter 13 dynamics can be represented as:
 
 $$
-
-dL\_i(t)
-
-=
-
-\\mu\_i(t)\\,dt
-
-\+
-
-\\sigma\_i(t)b\_i\\cdot dW\_t.
-
+dL_i(t)=
+\mu_i(t)\,dt
++
+\sigma_i(t)b_i\cdot dW_t.
 $$
-
-
 
 The volatility function is deterministic once the simulation time and forward maturity are known.
 
-
-
 This structure is useful for:
 
-
-
-\- modelling correlated curve movements;
-
-\- understanding level, slope, and curvature factors;
-
-\- testing terminal-measure dynamics;
-
-\- pricing simple interest-rate options;
-
-\- building a transparent Monte Carlo framework.
-
-
+- modelling correlated curve movements;
+- understanding level, slope, and curvature factors;
+- testing terminal-measure dynamics;
+- pricing simple interest-rate options;
+- building a transparent Monte Carlo framework.
 
 However, a deterministic-volatility Gaussian model has limited ability to reproduce:
 
-
-
-\- volatility smiles;
-
-\- volatility skews;
-
-\- stochastic changes in option-market volatility;
-
-\- asymmetric forward-rate distributions;
-
-\- state-dependent tail behaviour.
-
-
+- volatility smiles;
+- volatility skews;
+- stochastic changes in option-market volatility;
+- asymmetric forward-rate distributions;
+- state-dependent tail behaviour.
 
 The Chapter 14 model adds a stochastic volatility process for every forward rate.
 
-
-
 The hybrid forward dynamics are:
 
-
-
 $$
-
-dL\_i(t)
-
-=
-
-\\mu\_i(t)\\,dt
-
-\+
-
-g\_i(t)\\alpha\_i(t)
-
-\\left\[L\_i(t)+s\_i\\right]^{\\beta\_i}
-
-b\_i\\cdot dW\_t.
-
+dL_i(t)=
+\mu_i(t)\,dt
++
+g_i(t)\alpha_i(t)
+\left[L_i(t)+s_i\right]^{\beta_i}
+b_i\cdot dW_t.
 $$
-
-
 
 The associated stochastic-volatility process is:
 
-
-
 $$
-
-d\\alpha\_i(t)
-
-=
-
-\\nu\_i\\alpha\_i(t)\\,dZ\_i(t).
-
+d\alpha_i(t)=
+\nu_i\alpha_i(t)\,dZ_i(t).
 $$
-
-
 
 The rate and volatility shocks are correlated:
 
-
-
 $$
-
-\\mathrm{Corr}
-
-\\left(
-
-dW\_i(t),
-
-dZ\_i(t)
-
-\\right)
-
-=
-
-\\rho\_i.
-
+\mathrm{Corr}
+\left(
+dW_i(t),
+dZ_i(t)
+\right)=
+\rho_i.
 $$
-
-
 
 The model therefore evolves both:
 
-
-
 $$
-
-L\_i(t)
-
+L_i(t)
 $$
-
-
 
 and:
 
-
-
+$$
+\alpha_i(t).
 $$
 
-\\alpha\_i(t).
+---
 
-$$
-
-
-
-\---
-
-
-
-\# 3. Tenor Structure and Initial Forward Curve
-
-
+# 14.4 Tenor Structure and Initial Forward Curve
 
 Let the tenor dates be:
 
-
-
+$$
+0=T_0<T_1<\cdots<T_N.
 $$
 
-0=T\_0<T\_1<\\cdots<T\_N.
+The accrual period for the $i$-th forward rate is:
 
 $$
-
-
-
-The accrual period for the \\(i\\)-th forward rate is:
-
-
-
+\delta_i=
+T_{i+1}-T_i.
 $$
 
-\\delta\_i
-
-=
-
-T\_{i+1}-T\_i.
+The forward rate $L_i(t)$ applies over:
 
 $$
-
-
-
-The forward rate \\(L\_i(t)\\) applies over:
-
-
-
+[T_i,T_{i+1}].
 $$
-
-\[T\_i,T\_{i+1}].
-
-$$
-
-
 
 The initial zero curve provides discount factors:
 
-
-
 $$
-
 P(0,T).
-
 $$
-
-
 
 If continuously compounded zero rates are available, the discount factor is:
 
-
-
 $$
-
-P(0,T)
-
-=
-
-\\exp
-
-\\left\[
-
-\-z(0,T)T
-
-\\right].
-
+P(0,T)=
+\exp
+\left[
+-z(0,T)T
+\right].
 $$
-
-
 
 The initial simple forward rate is obtained from adjacent discount factors:
 
-
-
 $$
-
-L\_i(0)
-
-=
-
-\\frac{1}{\\delta\_i}
-
-\\left\[
-
-\\frac{P(0,T\_i)}
-
-{P(0,T\_{i+1})}
-
-\-
-
+L_i(0)=
+\frac{1}{\delta_i}
+\left[
+\frac{P(0,T_i)}
+{P(0,T_{i+1})}-
 1
-
-\\right].
-
+\right].
 $$
-
-
 
 The simulation begins from the market-consistent initial forward curve:
 
-
-
+$$
+L(0)=
+\left[
+L_0(0),
+L_1(0),
+\ldots,
+L_{N-1}(0)
+\right].
 $$
 
-L(0)
+---
 
-=
-
-\\left\[
-
-L\_0(0),
-
-L\_1(0),
-
-\\ldots,
-
-L\_{N-1}(0)
-
-\\right].
-
-$$
-
-
-
-\---
-
-
-
-\# 4. SABR Parameter Structure
-
-
+# 14.5 SABR Parameter Structure
 
 Each forward rate has its own SABR parameter set:
 
-
-
 $$
-
-\\alpha\_i(0),
-
-\\quad
-
-\\beta\_i,
-
-\\quad
-
-\\rho\_i,
-
-\\quad
-
-\\nu\_i,
-
-\\quad
-
-s\_i.
-
+\alpha_i(0),
+\quad
+\beta_i,
+\quad
+\rho_i,
+\quad
+\nu_i,
+\quad
+s_i.
 $$
-
-
 
 The parameters have different roles.
 
-
-
-\## Initial stochastic volatility
-
-
+## Initial stochastic volatility
 
 $$
-
-\\alpha\_i(0)>0.
-
+\alpha_i(0)>0.
 $$
-
-
 
 The initial alpha level contributes to the overall volatility level of the forward rate.
 
-
-
-\## Elasticity parameter
-
-
+## Elasticity parameter
 
 $$
-
-0\\le \\beta\_i\\le 1.
-
+0\le \beta_i\le 1.
 $$
 
-
-
-The parameter \\(\\beta\_i\\) controls how the absolute diffusion scale depends on the shifted forward level.
-
-
+The parameter $\beta_i$ controls how the absolute diffusion scale depends on the shifted forward level.
 
 If:
 
-
-
 $$
-
-\\beta\_i=0,
-
+\beta_i=0,
 $$
-
-
 
 then:
 
-
-
 $$
-
-\\left\[L\_i(t)+s\_i\\right]^{\\beta\_i}=1,
-
+\left[L_i(t)+s_i\right]^{\beta_i}=1,
 $$
-
-
 
 which gives a more normal-style diffusion.
 
-
-
 If:
 
-
-
 $$
-
-\\beta\_i=1,
-
+\beta_i=1,
 $$
-
-
 
 then:
 
-
-
 $$
-
-\\left\[L\_i(t)+s\_i\\right]^{\\beta\_i}
-
-=
-
-L\_i(t)+s\_i,
-
+\left[L_i(t)+s_i\right]^{\beta_i}=
+L_i(t)+s_i,
 $$
-
-
 
 which gives a displaced-lognormal-style diffusion.
 
-
-
-\## Rate-volatility correlation
-
-
+## Rate-volatility correlation
 
 $$
-
-\-1<\\rho\_i<1.
-
+-1<\rho_i<1.
 $$
 
-
-
-The parameter \\(\\rho\_i\\) controls the correlation between the forward-rate shock and the stochastic-volatility shock.
-
-
+The parameter $\rho_i$ controls the correlation between the forward-rate shock and the stochastic-volatility shock.
 
 It is closely associated with the direction of the implied-volatility skew.
 
-
-
-\## Volatility of volatility
-
-
+## Volatility of volatility
 
 $$
-
-\\nu\_i\\ge 0.
-
+\nu_i\ge 0.
 $$
 
+The parameter $\nu_i$ controls the variability of the stochastic-volatility process.
 
+Larger values of $\nu_i$ generally produce more dispersed alpha paths and stronger smile curvature.
 
-The parameter \\(\\nu\_i\\) controls the variability of the stochastic-volatility process.
-
-
-
-Larger values of \\(\\nu\_i\\) generally produce more dispersed alpha paths and stronger smile curvature.
-
-
-
-\## Displacement
-
-
+## Displacement
 
 $$
-
-s\_i\\ge 0.
-
+s_i\ge 0.
 $$
-
-
 
 The shifted forward must satisfy:
 
-
-
+$$
+L_i(t)+s_i>0.
 $$
 
-L\_i(t)+s\_i>0.
+The displacement makes the model compatible with low or moderately negative forward rates and permits fractional values of $\beta_i$.
 
-$$
+---
 
-
-
-The displacement makes the model compatible with low or moderately negative forward rates and permits fractional values of \\(\\beta\_i\\).
-
-
-
-\---
-
-
-
-\# 5. Static Parameters and Dynamic State Variables
-
-
+# 14.6 Static Parameters and Dynamic State Variables
 
 A key distinction is that not every SABR quantity changes during simulation.
 
-
-
 The static model parameters are:
 
-
-
 $$
-
-\\beta\_i,
-
-\\quad
-
-\\rho\_i,
-
-\\quad
-
-\\nu\_i,
-
-\\quad
-
-s\_i.
-
+\beta_i,
+\quad
+\rho_i,
+\quad
+\nu_i,
+\quad
+s_i.
 $$
-
-
 
 These are specified before the Monte Carlo simulation begins and remain fixed during one pricing run.
 
-
-
 The dynamic state variables are:
 
-
-
 $$
-
-L\_i(t)
-
+L_i(t)
 $$
-
-
 
 and:
 
-
-
 $$
-
-\\alpha\_i(t).
-
+\alpha_i(t).
 $$
-
-
 
 At every simulation date and on every Monte Carlo path, the model updates:
 
-
-
 ```text
-
 the complete forward curve
-
-\+
-
++
 the complete stochastic-volatility curve
-
 ```
-
-
 
 The complete model state is therefore:
 
-
-
 $$
-
-X(t)
-
-=
-
-\\left(
-
-L\_0(t),
-
-\\ldots,
-
-L\_{N-1}(t),
-
-\\alpha\_0(t),
-
-\\ldots,
-
-\\alpha\_{N-1}(t)
-
-\\right).
-
+X(t)=
+\left(
+L_0(t),
+\ldots,
+L_{N-1}(t),
+\alpha_0(t),
+\ldots,
+\alpha_{N-1}(t)
+\right).
 $$
-
-
 
 This is the main difference from the Gaussian LMM in Chapter 13, where the forward curve is the principal simulated state.
 
+---
 
-
-\---
-
-
-
-\# 6. Correlation and PCA Rate Factors
-
-
+# 14.7 Correlation and PCA Rate Factors
 
 Forward rates across different maturities are strongly correlated.
 
-
-
 The exponential correlation specification is:
 
-
-
+$$
+\rho_{ij}^{L}=
+\exp
+\left[
+-\gamma
+\left|
+T_i-T_j
+\right|
+\right].
 $$
 
-\\rho\_{ij}^{L}
+A smaller value of $\gamma$ produces slower correlation decay.
 
-=
-
-\\exp
-
-\\left\[
-
-\-\\gamma
-
-\\left|
-
-T\_i-T\_j
-
-\\right|
-
-\\right].
-
-$$
-
-
-
-A smaller value of \\(\\gamma\\) produces slower correlation decay.
-
-
-
-A larger value of \\(\\gamma\\) produces faster correlation decay.
-
-
+A larger value of $\gamma$ produces faster correlation decay.
 
 The full forward-rate correlation matrix may be decomposed as:
 
-
-
+$$
+\rho^{L}=
+Q\Lambda Q^\top.
 $$
 
-\\rho^{L}
-
-=
-
-Q\\Lambda Q^\\top.
+A reduced $K$-factor representation is obtained using the largest eigenvalues and associated eigenvectors:
 
 $$
-
-
-
-A reduced \\(K\\)-factor representation is obtained using the largest eigenvalues and associated eigenvectors:
-
-
-
+B=
+Q_K\Lambda_K^{1/2}.
 $$
 
-B
-
-=
-
-Q\_K\\Lambda\_K^{1/2}.
-
-$$
-
-
-
-The \\(i\\)-th row of \\(B\\), denoted by \\(b\_i\\), contains the exposure of the \\(i\\)-th forward rate to the retained common rate factors.
-
-
+The $i$-th row of $B$, denoted by $b_i$, contains the exposure of the $i$-th forward rate to the retained common rate factors.
 
 A three-factor representation is commonly interpreted as:
 
-
-
-1\. level;
-
-2\. slope;
-
-3\. curvature.
-
-
+1. level;
+2. slope;
+3. curvature.
 
 The reduced-factor approximation satisfies:
 
-
-
+$$
+BB^\top
+\approx
+\rho^{L}.
 $$
 
-BB^\\top
+---
 
-\\approx
+# 14.8 Hybrid LMM-SABR Factor Loadings
 
-\\rho^{L}.
-
-$$
-
-
-
-\---
-
-
-
-\# 7. Hybrid LMM-SABR Factor Loadings
-
-
-
-The instantaneous factor loading of forward \\(i\\) is:
-
-
+The instantaneous factor loading of forward $i$ is:
 
 $$
-
-\\lambda\_i(t)
-
-=
-
-g\_i(t)
-
-\\alpha\_i(t)
-
-\\left\[
-
-L\_i(t)+s\_i
-
-\\right]^{\\beta\_i}
-
-b\_i.
-
+\lambda_i(t)=
+g_i(t)
+\alpha_i(t)
+\left[
+L_i(t)+s_i
+\right]^{\beta_i}
+b_i.
 $$
-
-
 
 This expression combines four components.
 
-
-
-\## Deterministic maturity backbone
-
-
+## Deterministic maturity backbone
 
 $$
-
-g\_i(t).
-
+g_i(t).
 $$
-
-
 
 This term controls the broad maturity structure of forward volatility.
 
-
-
 A typical specification is:
 
-
-
+$$
+g_i(t)=
+g_{\mathrm{floor}}
++
+g_{\mathrm{level}}
+\exp
+\left[
+-d(T_i-t)
+\right].
 $$
 
-g\_i(t)
-
-=
-
-g\_{\\mathrm{floor}}
-
-\+
-
-g\_{\\mathrm{level}}
-
-\\exp
-
-\\left\[
-
-\-d(T\_i-t)
-
-\\right].
+## Stochastic volatility state
 
 $$
-
-
-
-\## Stochastic volatility state
-
-
-
+\alpha_i(t).
 $$
-
-\\alpha\_i(t).
-
-$$
-
-
 
 Two paths can have the same forward rate but different future risk because their alpha states may be different.
 
-
-
-\## CEV-style level dependence
-
-
+## CEV-style level dependence
 
 $$
-
-\\left\[
-
-L\_i(t)+s\_i
-
-\\right]^{\\beta\_i}.
-
+\left[
+L_i(t)+s_i
+\right]^{\beta_i}.
 $$
-
-
 
 This term allows absolute volatility to change with the forward-rate level.
 
-
-
-\## Common rate-factor exposure
-
-
+## Common rate-factor exposure
 
 $$
-
-b\_i.
-
+b_i.
 $$
-
-
 
 This term links each forward rate to the common level, slope, and curvature shocks.
 
-
-
-The instantaneous covariance between forwards \\(i\\) and \\(j\\) is:
-
-
+The instantaneous covariance between forwards $i$ and $j$ is:
 
 $$
-
-\\lambda\_i(t)\\cdot\\lambda\_j(t).
-
+\lambda_i(t)\cdot\lambda_j(t).
 $$
-
-
 
 The complete forward covariance matrix is:
 
-
-
+$$
+\Sigma(t)=
+\Lambda(t)\Lambda(t)^\top,
 $$
 
-\\Sigma(t)
+where $\Lambda(t)$ is the matrix whose rows are the factor-loading vectors.
 
-=
+---
 
-\\Lambda(t)\\Lambda(t)^\\top,
-
-$$
-
-
-
-where \\(\\Lambda(t)\\) is the matrix whose rows are the factor-loading vectors.
-
-
-
-\---
-
-
-
-\# 8. Terminal-Measure Drift
-
-
+# 14.9 Terminal-Measure Drift
 
 The model uses the terminal zero-coupon bond:
 
-
-
 $$
-
-P(t,T\_N)
-
+P(t,T_N)
 $$
-
-
 
 as the numeraire.
 
-
-
 Under the terminal measure, the forward-rate dynamics are:
 
-
-
 $$
-
-dL\_i(t)
-
-=
-
-\\mu\_i(t)\\,dt
-
-\+
-
-\\lambda\_i(t)\\cdot dW\_t^{T\_N}.
-
+dL_i(t)=
+\mu_i(t)\,dt
++
+\lambda_i(t)\cdot dW_t^{T_N}.
 $$
-
-
 
 The drift is:
 
-
-
 $$
-
-\\mu\_i(t)
-
-=
-
-\-
-
-\\sum\_{j=i+1}^{N-1}
-
-\\frac{
-
-\\delta\_j
-
-\\lambda\_i(t)\\cdot\\lambda\_j(t)
-
+\mu_i(t)=-
+\sum_{j=i+1}^{N-1}
+\frac{
+\delta_j
+\lambda_i(t)\cdot\lambda_j(t)
 }{
-
-1+\\delta\_jL\_j(t)
-
+1+\delta_jL_j(t)
 }.
-
 $$
 
-
-
-The drift of forward \\(i\\) depends only on forwards with later reset dates.
-
-
+The drift of forward $i$ depends only on forwards with later reset dates.
 
 For the final forward:
 
-
-
 $$
-
-\\mu\_{N-1}(t)=0.
-
+\mu_{N-1}(t)=0.
 $$
-
-
 
 This provides an important model diagnostic and unit test.
 
-
-
 Although the drift formula has the same structure as the Gaussian LMM, the loadings in the hybrid model depend on both:
 
-
-
 $$
-
-L\_i(t)
-
+L_i(t)
 $$
-
-
 
 and:
 
-
-
 $$
-
-\\alpha\_i(t).
-
+\alpha_i(t).
 $$
-
-
 
 The drift is therefore path-dependent through the stochastic covariance structure.
 
+---
 
-
-\---
-
-
-
-\# 9. Stochastic-Volatility Evolution
-
-
+# 14.10 Stochastic-Volatility Evolution
 
 The alpha process follows:
 
-
-
 $$
-
-d\\alpha\_i(t)
-
-=
-
-\\nu\_i\\alpha\_i(t)\\,dZ\_i(t).
-
+d\alpha_i(t)=
+\nu_i\alpha_i(t)\,dZ_i(t).
 $$
-
-
 
 The implementation uses the exact lognormal update:
 
-
-
 $$
-
-\\alpha\_i(t+\\Delta t)
-
-=
-
-\\alpha\_i(t)
-
-\\exp
-
-\\left\[
-
-\-\\frac{1}{2}\\nu\_i^2\\Delta t
-
-\+
-
-\\nu\_i\\sqrt{\\Delta t}\\,
-
-Z\_i^\\alpha
-
-\\right].
-
+\alpha_i(t+\Delta t)=
+\alpha_i(t)
+\exp
+\left[
+-\frac{1}{2}\nu_i^2\Delta t
++
+\nu_i\sqrt{\Delta t}\,
+Z_i^\alpha
+\right].
 $$
-
-
 
 This update preserves:
 
-
-
 $$
-
-\\alpha\_i(t)>0.
-
+\alpha_i(t)>0.
 $$
-
-
 
 The effective standardized forward shock is constructed from the factor loading:
 
-
-
 $$
-
-Z\_i^L
-
-=
-
-\\frac{
-
-\\lambda\_i(t)\\cdot Z^L
-
+Z_i^L=
+\frac{
+\lambda_i(t)\cdot Z^L
 }{
-
-\\left\\|
-
-\\lambda\_i(t)
-
-\\right\\|
-
+\left\|
+\lambda_i(t)
+\right\|
 }.
-
 $$
-
-
 
 The correlated volatility shock is then:
 
-
-
 $$
-
-Z\_i^\\alpha
-
-=
-
-\\rho\_i Z\_i^L
-
-\+
-
-\\sqrt{
-
-1-\\rho\_i^2
-
+Z_i^\alpha=
+\rho_i Z_i^L
++
+\sqrt{
+1-\rho_i^2
 }
-
-Z\_i^\\perp,
-
+Z_i^\perp,
 $$
-
-
 
 where:
 
-
-
 $$
-
-Z\_i^\\perp
-
+Z_i^\perp
 $$
-
-
 
 is independent of the common rate-factor shocks.
 
-
-
 This construction ensures:
 
-
-
+$$
+\mathrm{Corr}
+\left(
+Z_i^L,
+Z_i^\alpha
+\right)=
+\rho_i.
 $$
 
-\\mathrm{Corr}
+---
 
-\\left(
-
-Z\_i^L,
-
-Z\_i^\\alpha
-
-\\right)
-
-=
-
-\\rho\_i.
-
-$$
-
-
-
-\---
-
-
-
-\# 10. Numerical Evolution Scheme
-
-
+# 14.11 Numerical Evolution Scheme
 
 The forward rates are advanced using an Euler step.
 
-
-
 For each active forward:
 
-
-
 $$
-
-L\_i(t+\\Delta t)
-
-=
-
-L\_i(t)
-
-\+
-
-\\mu\_i(t)\\Delta t
-
-\+
-
-\\lambda\_i(t)\\cdot Z^L
-
-\\sqrt{\\Delta t}.
-
+L_i(t+\Delta t)=
+L_i(t)
++
+\mu_i(t)\Delta t
++
+\lambda_i(t)\cdot Z^L
+\sqrt{\Delta t}.
 $$
-
-
 
 The alpha state is advanced using the exact lognormal step:
 
-
-
 $$
-
-\\alpha\_i(t+\\Delta t)
-
-=
-
-\\alpha\_i(t)
-
-\\exp
-
-\\left\[
-
-\-\\frac{1}{2}\\nu\_i^2\\Delta t
-
-\+
-
-\\nu\_i
-
-\\sqrt{\\Delta t}
-
-Z\_i^\\alpha
-
-\\right].
-
+\alpha_i(t+\Delta t)=
+\alpha_i(t)
+\exp
+\left[
+-\frac{1}{2}\nu_i^2\Delta t
++
+\nu_i
+\sqrt{\Delta t}
+Z_i^\alpha
+\right].
 $$
-
-
 
 A forward is active only before its reset date:
 
-
-
 $$
-
-t<T\_i.
-
+t<T_i.
 $$
-
-
 
 Once:
 
-
-
 $$
-
-t\\ge T\_i,
-
+t\ge T_i,
 $$
-
-
 
 the corresponding forward and alpha state are frozen.
 
-
-
 The Euler step may occasionally cross the displaced SABR boundary. The implementation therefore enforces:
 
-
-
+$$
+L_i(t)
+\ge
+-s_i+\varepsilon,
 $$
 
-L\_i(t)
-
-\\ge
-
-\-s\_i+\\varepsilon,
-
-$$
-
-
-
-where \\(\\varepsilon\\) is a small positive numerical constant.
-
-
+where $\varepsilon$ is a small positive numerical constant.
 
 The model also requires:
 
-
-
 $$
-
-1+\\delta\_iL\_i(t)>0.
-
+1+\delta_iL_i(t)>0.
 $$
-
-
 
 This second condition is necessary for converting forward rates into valid discount factors.
 
-
-
 The displaced floor is a practical numerical safeguard. It is not an exact boundary-preserving discretization and may introduce a small truncation bias near the boundary.
 
+---
 
-
-\---
-
-
-
-\# 11. Monte Carlo Simulation Architecture
-
-
+# 14.12 Monte Carlo Simulation Architecture
 
 The simulator stores two three-dimensional arrays.
 
-
-
 The forward paths are stored as:
 
-
-
 ```text
-
-forwardPaths\[path]\[time]\[forward]
-
+forwardPaths[path][time][forward]
 ```
-
-
 
 The stochastic-volatility paths are stored as:
 
-
-
 ```text
-
-alphaPaths\[path]\[time]\[forward]
-
+alphaPaths[path][time][forward]
 ```
-
-
 
 For example:
 
-
-
 ```cpp
-
-forwardPaths\[10]\[40]\[6]
-
+forwardPaths[10][40][6]
 ```
-
-
 
 represents:
 
-
-
 ```text
-
 Monte Carlo path 10
-
 simulation-time index 40
-
 forward-rate index 6
-
 ```
-
-
 
 The complete forward curve on one path at one time is:
 
-
-
 ```cpp
-
-forwardPaths\[10]\[40]
-
+forwardPaths[10][40]
 ```
-
-
 
 The simulator performs the following steps:
 
-
-
 ```text
-
 build the simulation grid
-
-&#x20;       ↓
-
+        ↓
 add mandatory reset and expiry dates
-
-&#x20;       ↓
-
+        ↓
 initialize all paths from the same market curve
-
-&#x20;       ↓
-
+        ↓
 generate common rate-factor shocks
-
-&#x20;       ↓
-
+        ↓
 generate forward-specific volatility shocks
-
-&#x20;       ↓
-
+        ↓
 call the model evolution function
-
-&#x20;       ↓
-
+        ↓
 store the next forward and alpha states
-
-&#x20;       ↓
-
+        ↓
 repeat across time and paths
-
 ```
-
-
 
 Antithetic variates may be used by pairing:
 
-
-
 $$
-
 Z
-
 $$
-
-
 
 with:
 
-
-
 $$
-
-\-Z.
-
+-Z.
 $$
-
-
 
 This reduces Monte Carlo variance without changing the underlying distribution.
 
+---
 
-
-\---
-
-
-
-\# 12. Discount-Factor and Swap Reconstruction
-
-
+# 14.13 Discount-Factor and Swap Reconstruction
 
 The model simulates forward rates directly, but option pricing requires discount factors, annuities, and swap rates.
 
-
-
 The forward-discount relationship is:
 
-
-
 $$
-
-1+\\delta\_iL\_i(t)
-
-=
-
-\\frac{
-
-P(t,T\_i)
-
+1+\delta_iL_i(t)=
+\frac{
+P(t,T_i)
 }{
-
-P(t,T\_{i+1})
-
+P(t,T_{i+1})
 }.
-
 $$
-
-
 
 Therefore:
 
-
-
 $$
-
-P(t,T\_{i+1})
-
-=
-
-\\frac{
-
-P(t,T\_i)
-
+P(t,T_{i+1})=
+\frac{
+P(t,T_i)
 }{
-
-1+\\delta\_iL\_i(t)
-
+1+\delta_iL_i(t)
 }.
-
 $$
 
-
-
-At a simulation date \\(T\_k\\), reconstruction begins from:
-
-
+At a simulation date $T_k$, reconstruction begins from:
 
 $$
-
-P(T\_k,T\_k)=1.
-
+P(T_k,T_k)=1.
 $$
-
-
 
 The later discount factors are generated recursively.
 
-
-
-For a swap beginning at \\(T\_k\\) and ending at \\(T\_m\\), the annuity is:
-
-
+For a swap beginning at $T_k$ and ending at $T_m$, the annuity is:
 
 $$
-
-A(T\_k)
-
-=
-
-\\sum\_{j=k}^{m-1}
-
-\\delta\_jP(T\_k,T\_{j+1}).
-
+A(T_k)=
+\sum_{j=k}^{m-1}
+\delta_jP(T_k,T_{j+1}).
 $$
-
-
 
 The par swap rate is:
 
-
-
 $$
-
-S(T\_k)
-
-=
-
-\\frac{
-
-1-P(T\_k,T\_m)
-
+S(T_k)=
+\frac{
+1-P(T_k,T_m)
 }{
-
-A(T\_k)
-
+A(T_k)
 }.
-
 $$
-
-
 
 A caplet depends primarily on one forward rate.
 
-
-
 A swaption depends on an entire segment of the forward curve because both the swap annuity and par swap rate require multiple discount factors.
 
+---
 
+# 14.14 Caplet Pricing
 
-\---
-
-
-
-\# 13. Caplet Pricing
-
-
-
-Consider a caplet that fixes at \\(T\_i\\) and pays at \\(T\_{i+1}\\).
-
-
+Consider a caplet that fixes at $T_i$ and pays at $T_{i+1}$.
 
 Its payment-date payoff is:
 
-
-
 $$
-
-\\mathrm{Payoff}\_{T\_{i+1}}
-
-=
-
-N\\delta\_i
-
-\\max
-
-\\left\[
-
-L\_i(T\_i)-K,
-
+\mathrm{Payoff}_{T_{i+1}}=
+N\delta_i
+\max
+\left[
+L_i(T_i)-K,
 0
-
-\\right].
-
+\right].
 $$
-
-
 
 The value at the fixing date is:
 
-
-
 $$
-
-V(T\_i)
-
-=
-
-\\frac{
-
-N\\delta\_i
-
-\\max
-
-\\left\[
-
-L\_i(T\_i)-K,
-
+V(T_i)=
+\frac{
+N\delta_i
+\max
+\left[
+L_i(T_i)-K,
 0
-
-\\right]
-
+\right]
 }{
-
-1+\\delta\_iL\_i(T\_i)
-
+1+\delta_iL_i(T_i)
 }.
-
 $$
-
-
 
 Under the terminal measure:
 
-
-
 $$
-
-V(0)
-
-=
-
-P(0,T\_N)
-
-\\mathbb{E}^{T\_N}
-
-\\left\[
-
-\\frac{
-
-V(T\_i)
-
+V(0)=
+P(0,T_N)
+\mathbb{E}^{T_N}
+\left[
+\frac{
+V(T_i)
 }{
-
-P(T\_i,T\_N)
-
+P(T_i,T_N)
 }
-
-\\right].
-
+\right].
 $$
-
-
 
 The Monte Carlo estimator is:
 
-
-
 $$
-
-\\widehat{V}(0)
-
-=
-
-P(0,T\_N)
-
-\\frac{1}{M}
-
-\\sum\_{m=1}^{M}
-
-\\frac{
-
-V^{(m)}(T\_i)
-
+\widehat{V}(0)=
+P(0,T_N)
+\frac{1}{M}
+\sum_{m=1}^{M}
+\frac{
+V^{(m)}(T_i)
 }{
-
-P^{(m)}(T\_i,T\_N)
-
+P^{(m)}(T_i,T_N)
 }.
-
 $$
-
-
 
 The implementation also reports a Monte Carlo standard error.
 
+---
 
+# 14.15 European Payer Swaption Pricing
 
-\---
-
-
-
-\# 14. European Payer Swaption Pricing
-
-
-
-Consider a European payer swaption expiring at \\(T\_k\\) on a swap ending at \\(T\_m\\).
-
-
+Consider a European payer swaption expiring at $T_k$ on a swap ending at $T_m$.
 
 The expiry payoff is:
 
-
-
 $$
-
-\\mathrm{Payoff}\_{T\_k}
-
-=
-
+\mathrm{Payoff}_{T_k}=
 N
-
-A(T\_k)
-
-\\max
-
-\\left\[
-
-S(T\_k)-K,
-
+A(T_k)
+\max
+\left[
+S(T_k)-K,
 0
-
-\\right].
-
+\right].
 $$
-
-
 
 The swap annuity is:
 
-
-
 $$
-
-A(T\_k)
-
-=
-
-\\sum\_{j=k}^{m-1}
-
-\\delta\_jP(T\_k,T\_{j+1}).
-
+A(T_k)=
+\sum_{j=k}^{m-1}
+\delta_jP(T_k,T_{j+1}).
 $$
-
-
 
 The par swap rate is:
 
-
-
 $$
-
-S(T\_k)
-
-=
-
-\\frac{
-
-1-P(T\_k,T\_m)
-
+S(T_k)=
+\frac{
+1-P(T_k,T_m)
 }{
-
-A(T\_k)
-
+A(T_k)
 }.
-
 $$
-
-
 
 Under the terminal measure:
 
-
-
 $$
-
-V(0)
-
-=
-
-P(0,T\_N)
-
-\\mathbb{E}^{T\_N}
-
-\\left\[
-
-\\frac{
-
-\\mathrm{Payoff}\_{T\_k}
-
+V(0)=
+P(0,T_N)
+\mathbb{E}^{T_N}
+\left[
+\frac{
+\mathrm{Payoff}_{T_k}
 }{
-
-P(T\_k,T\_N)
-
+P(T_k,T_N)
 }
-
-\\right].
-
+\right].
 $$
-
-
 
 The Monte Carlo estimator is:
 
-
-
 $$
-
-\\widehat{V}(0)
-
-=
-
-P(0,T\_N)
-
-\\frac{1}{M}
-
-\\sum\_{m=1}^{M}
-
-\\frac{
-
-\\mathrm{Payoff}\_{T\_k}^{(m)}
-
+\widehat{V}(0)
+=P(0,T_N)
+\frac{1}{M}
+\sum_{m=1}^{M}
+\frac{
+\mathrm{Payoff}_{T_k}^{(m)}
 }{
-
-P^{(m)}(T\_k,T\_N)
-
+P^{(m)}(T_k,T_N)
 }.
-
 $$
-
-
 
 The payer swaption becomes more valuable when simulated par swap rates exceed the strike.
 
+---
 
+# 14.16 Compilation, Execution, and Limitations
 
-\---
-
-
-
-\# 15. Compilation, Execution, and Limitations
-
-
-
-\## C++ compilation
-
-
+## C++ compilation
 
 From the `cpp` directory, compile with:
 
-
-
 ```bash
-
-g++ -std=c++17 -O2 SABRParameters.cpp LMMSABRHybrid.cpp SABRSimulation.cpp LMMSABRPricing.cpp main.cpp -o lmm\_sabr\_demo
-
+g++ -std=c++17 -O2 SABRParameters.cpp LMMSABRHybrid.cpp SABRSimulation.cpp LMMSABRPricing.cpp main.cpp -o lmm_sabr_demo
 ```
-
-
 
 On Windows PowerShell:
 
-
-
 ```bash
-
-g++ -std=c++17 -O2 SABRParameters.cpp LMMSABRHybrid.cpp SABRSimulation.cpp LMMSABRPricing.cpp main.cpp -o lmm\_sabr\_demo.exe
-
+g++ -std=c++17 -O2 SABRParameters.cpp LMMSABRHybrid.cpp SABRSimulation.cpp LMMSABRPricing.cpp main.cpp -o lmm_sabr_demo.exe
 ```
-
-
 
 Run on Windows:
 
-
-
 ```bash
-
-.\\lmm\_sabr\_demo.exe
-
+.\lmm_sabr_demo.exe
 ```
-
-
 
 Run on Linux or macOS:
 
-
-
 ```bash
-
-./lmm\_sabr\_demo
-
+./lmm_sabr_demo
 ```
 
-
-
-\## Python tests
-
-
+## Python tests
 
 From the project root:
 
-
-
 ```bash
-
-pytest 14\_lmm\_sabr\_hybrid\_model/tests/test.py -v
-
+pytest 14_lmm_sabr_hybrid_model/tests/test.py -v
 ```
-
-
 
 Alternatively, from the Chapter 14 `tests` directory:
 
-
-
 ```bash
-
 pytest test.py -v
-
 ```
 
-
-
-\## Model limitations
-
-
+## Model limitations
 
 This implementation is designed for education, prototyping, and model-architecture study.
 
-
-
 It does not yet include:
 
-
-
-\- calibration to market caplet smiles;
-
-\- calibration to a swaption volatility cube;
-
-\- predictor-corrector LMM discretization;
-
-\- exact displaced-forward simulation;
-
-\- smooth parameter regularization;
-
-\- stochastic correlation;
-
-\- local or stochastic displacement;
-
-\- Bermudan exercise;
-
-\- adjoint differentiation;
-
-\- production Greeks;
-
-\- multi-curve discounting and forwarding;
-
-\- collateral and funding conventions;
-
-\- calibration Jacobians;
-
-\- production-level performance optimization.
-
-
+- calibration to market caplet smiles;
+- calibration to a swaption volatility cube;
+- predictor-corrector LMM discretization;
+- exact displaced-forward simulation;
+- smooth parameter regularization;
+- stochastic correlation;
+- local or stochastic displacement;
+- Bermudan exercise;
+- adjoint differentiation;
+- production Greeks;
+- multi-curve discounting and forwarding;
+- collateral and funding conventions;
+- calibration Jacobians;
+- production-level performance optimization.
 
 The parameters used in the examples are illustrative rather than market calibrated.
 
-
-
 In production, the typical interpretation is:
 
-
-
 ```text
-
 alpha
-
 primarily controls the ATM volatility level
 
-
-
 beta
-
 controls rate-level elasticity
 
-
-
 rho
-
 primarily controls skew
 
-
-
 nu
-
 primarily controls smile curvature
 
-
-
 shift
-
 supports low or negative rates
-
 ```
-
-
 
 Beta and shift are often fixed by model convention, while alpha, rho, and nu are calibrated subject to smoothness and stability constraints.
 
-
-
 The main learning objective is to understand how a deterministic-volatility Gaussian LMM can be extended into a stochastic-volatility forward-rate model while preserving the LMM tenor, correlation, measure, simulation, and pricing architecture.
-
