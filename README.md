@@ -60,8 +60,7 @@ A swaption model requires an initial curve. A Monte Carlo model requires volatil
 For example, a simple forward rate is derived from discount factors through:
 
 $$
-L_i(0)
-=
+L_i(0)=
 \frac{1}{\delta_i}
 \left[
 \frac{P(0,T_i)}
