@@ -492,3 +492,13 @@ The aim is to make interest-rate quantitative finance understandable at three le
 - the working implementation.
 
 The result is a structured learning and reference library for anyone who wants to move from fixed-income theory toward practical quantitative pricing, model validation, risk management, or front-office development.
+
+---
+## Citation
+
+If you use this repository, its code, or its examples in academic work, please cite:
+
+Feng, X., Huseynov, S. and Mavroyiannis, D. (2026).
+“The Evolution of Interest-Rate Models: From the Yield Curve to the Swaption Cube.”
+*Journal of Economic Surveys*.
+https://doi.org/10.1111/joes.70161
