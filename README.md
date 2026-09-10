@@ -1,5 +1,20 @@
 # Rates Pricing Quant Library
+## 📄 Companion Paper
 
+This repository serves as an open Python/C++ computational companion to the following published survey article:
+
+> **Feng, X., Huseynov, S. and Mavroyiannis, D. (2026).  
+> “The Evolution of Interest-Rate Models: From the Yield Curve to the Swaption Cube.”  
+> *Journal of Economic Surveys*.**  
+> https://doi.org/10.1111/joes.70161
+
+The paper develops the conceptual and historical framework for modern interest-rate modelling, while this repository provides transparent and reproducible implementations for selected components of that framework, including yield-curve construction, swap pricing and risk, swaption pricing, volatility modelling, term-structure models, Monte Carlo methods, and counterparty exposure/XVA.
+
+The paper and repository are intended to be used together: **the article explains why the models evolved and how they fit into a modern pricing architecture; the code shows how selected parts of that architecture can be implemented and explored in practice.**
+
+If you use this repository in academic work, please cite the companion paper.
+
+---
 A practical interest-rate quantitative finance library built in **Python and C++**, covering the full path from yield-curve construction to derivatives pricing, volatility modeling, Monte Carlo simulation, early-exercise products, counterparty exposure, and XVA.
 
 The project is organized as a sequence of connected chapters. Each chapter introduces the financial intuition, derives the main equations, implements the model, and demonstrates how the output can be used in pricing or risk analysis.
